@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ibhade Charity Foundation — Transforming Lives Through Verified Action</title>
+<meta name="description" content="Ibhade Charity Foundation delivers verified impact through transparent action and community-rooted programmes across Nigeria." />
+<link rel="icon" type="image/png" href="IBADE LOGO.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+/* â”€â”€ Variables â”€â”€ */
+:root {
+  --navy:       #144681;
+  --navy-dark:  #0e3260;
+  --navy-light: #1a5499;
+  --red:        #EC3237;
+  --red-dark:   #c9282d;
+  --white:      #FFFFFF;
+  --ivory:      #F7F3EE;
+  --charcoal:   #1C1C1E;
+  --mid-grey:   #6E6E73;
+  --light-grey: #E5E5EA;
+  --gold:       #E8A020;
+  --sage:       #7CAE9A;
+  --success:    #2D7D46;
+
+  --serif: 'Montserrat', sans-serif;
+  --sans:  'Montserrat', sans-serif;
+
+  --navy-grad: linear-gradient(135deg, #0e3260 0%, #144681 60%, #1a5499 100%);
+  --red-grad:  linear-gradient(135deg, #c9282d 0%, #EC3237 50%, #c9282d 100%);
+  --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-sm: 0 2px 12px rgba(20,70,129,0.08);
+  --shadow-md: 0 8px 32px rgba(20,70,129,0.12);
+  --shadow-lg: 0 20px 56px rgba(20,70,129,0.16);
+}
+
+/* â”€â”€ Reset â”€â”€ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--white);
+  color: var(--charcoal);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul { list-style: none; }
+
+/* â”€â”€ Utilities â”€â”€ */
+.container { max-width: 1240px; margin: 0 auto; padding: 0 20px; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--red);
+}
+.eyebrow::before {
+  content: ""; display: inline-block;
+  width: 28px; height: 2px; background: var(--red); flex-shrink: 0;
+}
+.eyebrow.on-dark { color: rgba(255,255,255,0.7); }
+.eyebrow.on-dark::before { background: rgba(255,255,255,0.5); }
+.eyebrow.navy { color: var(--navy); }
+.eyebrow.navy::before { background: var(--navy); }
+
+/* â”€â”€ Buttons â”€â”€ */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--sans); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.06em; padding: 14px 28px;
+  transition: all 0.25s var(--ease-out); cursor: pointer; border: none;
+}
+.btn-red    { background: var(--red-grad); color: var(--white); }
+.btn-red:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -16px rgba(236,50,55,0.6); }
+.btn-navy   { background: var(--navy-grad); color: var(--white); }
+.btn-navy:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -16px rgba(20,70,129,0.5); }
+.btn-outline-white { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.55); }
+.btn-outline-white:hover { border-color: var(--white); background: rgba(255,255,255,0.12); }
+.btn-outline-navy { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+.btn-outline-navy:hover { background: var(--navy); color: var(--white); }
+.btn-gold { background: var(--gold); color: var(--white); }
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -16px rgba(232,160,32,0.55); background: #d4901c; }
+
+/* â”€â”€ Reveal â”€â”€ */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• NAV â•â•â•â•â•â•â•â•â•â•â•â• */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  padding: 0 20px; height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, height 0.3s ease;
+}
+.nav.scrolled {
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: rgba(0,0,0,0.08);
+  box-shadow: 0 2px 20px rgba(20,70,129,0.10);
+  height: 64px;
+}
+.nav-brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.nav-logo { height: 42px; width: auto; object-fit: contain; filter: brightness(0) invert(1); transition: filter 0.35s ease; }
+.nav.scrolled .nav-logo { filter: none; }
+
+.nav-links { display: none; align-items: center; gap: 4px; }
+.nav-links a {
+  font-size: 13px; font-weight: 700; color: var(--white); padding: 6px 12px;
+  transition: color 0.2s; position: relative; letter-spacing: 0.02em;
+}
+.nav-links a::after {
+  content: ""; position: absolute; bottom: 0; left: 12px; right: 12px;
+  height: 2px; background: var(--white);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.25s var(--ease-out);
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--white); }
+
+/* Scrolled state — dark nav text */
+.nav.scrolled .nav-links a { color: var(--mid-grey); }
+.nav.scrolled .nav-links a::after { background: var(--navy); }
+.nav.scrolled .nav-links a:hover { color: var(--navy); }
+.nav.scrolled .nav-links a.active { color: var(--navy); }
+
+.nav-donate {
+  display: none;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 11px 24px; background: var(--red-grad); color: var(--white) !important;
+  transition: all 0.2s var(--ease-out); margin-left: 10px; border: none;
+}
+.nav-donate:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -8px rgba(236,50,55,0.6); }
+
+.nav-burger { display: flex; flex-direction: column; gap: 5px; width: 30px; padding: 4px 0; cursor: pointer; }
+.nav-burger span { display: block; width: 100%; height: 2px; background: var(--white); border-radius: 1px; transition: transform 0.3s, opacity 0.3s, background 0.35s; }
+.nav.scrolled .nav-burger span { background: var(--navy); }
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu */
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 99;
+  background: var(--navy);
+  flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.mobile-menu.open { display: flex; opacity: 1; }
+.mobile-menu a {
+  font-family: var(--serif); font-size: 36px; font-weight: 700; letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.85); transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--white); }
+.mobile-menu .mob-donate {
+  font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 16px 40px;
+  background: var(--red-grad); color: var(--white); margin-top: 8px;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• HERO â•â•â•â•â•â•â•â•â•â•â•â• */
+.hero {
+  position: relative; height: 100vh; min-height: 560px; overflow: hidden;
+  display: flex; align-items: flex-end; padding-bottom: 5vh;
+}
+
+/* Slideshow */
+.hero-slides {
+  position: absolute; inset: 0; z-index: 0;
+}
+.hero-slide {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0; transition: opacity 2.5s ease;
+}
+.hero-slide.active { opacity: 1; }
+.hero-slide::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,22,58,0.52) 0%, rgba(10,28,70,0.62) 60%, rgba(8,18,48,0.72) 100%);
+}
+
+
+.hero-content {
+  position: relative; z-index: 3;
+  width: 100%; padding: 0 clamp(16px, 2.5vw, 48px);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.hero-eyebrow {
+  display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;
+  opacity: 0; animation: fadeUp 0.9s var(--ease-out) 0.2s forwards;
+}
+.hero-eyebrow .pulse-dot {
+  width: 10px; height: 10px; background: var(--red); border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(236,50,55,0.4);
+  animation: ripple 2.5s ease infinite;
+}
+@keyframes ripple {
+  0%   { box-shadow: 0 0 0 0 rgba(236,50,55,0.4); }
+  70%  { box-shadow: 0 0 0 12px rgba(236,50,55,0); }
+  100% { box-shadow: 0 0 0 0 rgba(236,50,55,0); }
+}
+.hero-eyebrow span {
+  font-size: clamp(12px, 1.4vw, 15px); font-weight: 700; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--white);
+}
+
+/* Cycling headline */
+@keyframes heroSlideIn {
+  from { opacity: 0; transform: translateY(70px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroSlideOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-50px); }
+}
+
+.hero-headline-wrap {
+  min-height: clamp(110px, 17vw, 220px);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px; width: 100%;
+  opacity: 0; animation: fadeUp 0.9s var(--ease-out) 0.35s forwards;
+}
+.hero h1 {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(48px, 6.5vw, 88px); line-height: 1.10; letter-spacing: 0.01em;
+  color: var(--white); width: 100%; max-width: 960px; word-break: break-word;
+  animation: heroSlideIn 0.9s var(--ease-out) 0.35s both;
+}
+.hero h1 em { font-style: normal; color: var(--white); }
+
+.hero-ctas {
+  display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;
+  opacity: 0; animation: fadeUp 0.9s var(--ease-out) 0.55s forwards;
+}
+.hero-ctas .btn {
+  font-size: 14px; padding: 16px 36px; letter-spacing: 0.04em;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero stats strip — premium dark variant */
+.hero-stats {
+  background: var(--navy-dark);
+  position: relative; z-index: 2; overflow: hidden;
+}
+.hero-stats::before {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 120px);
+  pointer-events: none;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.hero-stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  position: relative; z-index: 1;
+}
+.hero-stat-cell {
+  padding: 36px 28px; border-right: 1px solid rgba(255,255,255,0.10);
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+  position: relative;
+}
+.hero-stat-cell::before {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 36px; height: 3px; background: var(--red);
+}
+.hero-stat-cell:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--serif); font-weight: 900; color: var(--white);
+  font-size: clamp(30px, 4.2vw, 52px); line-height: 1; letter-spacing: -0.02em;
+}
+.stat-num span { color: var(--red); }
+.stat-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.90); letter-spacing: 0.14em; text-transform: uppercase; }
+.stat-sub { font-size: 11px; color: rgba(255,255,255,0.42); display: block; margin-top: 1px; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• MISSION STRIP â•â•â•â•â•â•â•â•â•â•â•â• */
+.mission-strip {
+  background: var(--ivory); padding: 72px 0;
+}
+.mission-strip-inner { display: block; }
+.mission-quote { display: none; }
+.mission-pillars {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;
+}
+.pillar {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
+  padding: 40px 32px;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  border: none;
+  transition: box-shadow 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+  cursor: default;
+}
+.pillar:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+.pillar-icon {
+  width: 56px; height: 56px; flex-shrink: 0;
+  background: rgba(236,50,55,0.08); border: 1px solid rgba(236,50,55,0.20);
+  display: flex; align-items: center; justify-content: center; color: var(--red);
+  transition: background 0.3s, border-color 0.3s;
+}
+.pillar:hover .pillar-icon { background: rgba(236,50,55,0.15); border-color: rgba(236,50,55,0.45); }
+.pillar-icon svg { width: 24px; height: 24px; }
+.pillar-text strong { display: block; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--charcoal); margin-bottom: 3px; }
+.pillar-text span { font-size: 13px; font-weight: 400; letter-spacing: -0.01em; color: var(--mid-grey); line-height: 1.45; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• ABOUT / WHO WE ARE â•â•â•â•â•â•â•â•â•â•â•â• */
+.about { padding: 96px 0; background: var(--white); }
+.about-grid { display: grid; grid-template-columns: 1fr; gap: 64px; }
+
+.about-img-wrap {
+  position: relative; aspect-ratio: 4/5; overflow: hidden;
+  box-shadow: -10px 0 0 var(--red);
+}
+.about-img {
+  position: absolute; inset: 0;
+  background: var(--navy) center/cover no-repeat;
+  transition: transform 0.8s var(--ease-out);
+}
+.about-img-wrap:hover .about-img { transform: scale(1.04); }
+.about-img::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(4,14,38,0.60) 100%);
+}
+.about-frame { display: none; }
+.about-badge {
+  position: absolute; bottom: 0; left: 0; z-index: 2;
+  background: var(--navy); color: var(--white);
+  padding: 18px 24px; line-height: 1;
+}
+.about-badge .n { font-family: var(--serif); font-size: 40px; font-weight: 900; }
+.about-badge .l { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; opacity: 0.75; }
+
+.about-copy { display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+.about-copy h2 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(32px, 4.8vw, 58px); line-height: 1.05;
+  letter-spacing: -0.02em; color: var(--charcoal);
+}
+.about-copy h2 em { font-style: normal; color: var(--navy); }
+.about-copy p { font-size: 15px; line-height: 1.80; color: var(--mid-grey); max-width: 560px; }
+
+.about-divider { height: 1px; background: var(--light-grey); margin: 4px 0; }
+
+.about-accordion { display: flex; flex-direction: column; }
+.acc-item { border-bottom: 1px solid var(--light-grey); }
+.acc-item:first-child { border-top: 1px solid var(--light-grey); }
+.acc-trigger {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 15px 0; background: none; border: none;
+  font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--charcoal);
+  cursor: pointer; text-align: left; transition: color 0.2s;
+}
+.acc-trigger:hover { color: var(--navy); }
+.acc-trigger svg { transition: transform 0.35s var(--ease-out); flex-shrink: 0; color: var(--navy); }
+.acc-item.open .acc-trigger { color: var(--navy); }
+.acc-item.open .acc-trigger svg { transform: rotate(180deg); }
+.acc-body {
+  overflow: hidden; max-height: 0;
+  transition: max-height 0.42s var(--ease-out);
+}
+.acc-item.open .acc-body { max-height: 160px; }
+.acc-body p { font-size: 14px; line-height: 1.78; color: var(--mid-grey); padding-bottom: 18px; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• PHOTO GALLERY â•â•â•â•â•â•â•â•â•â•â•â• */
+/* Photo Gallery */
+.photo-gallery { padding: 80px 0 0; background: var(--white); }
+.pg-head { margin-bottom: 36px; }
+.pg-head h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(28px, 4.5vw, 44px); line-height: 1.06; color: var(--charcoal); margin-top: 10px; }
+.pg-head p { font-size: 14px; color: var(--mid-grey); margin-top: 10px; max-width: 480px; line-height: 1.7; }
+.pg-mosaic { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr; grid-template-rows: 260px 200px 260px; gap: 6px; }
+.pg-item { position: relative; overflow: hidden; background: var(--light-grey); cursor: pointer; }
+.pg-img { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.75s var(--ease-out); }
+.pg-item:hover .pg-img { transform: scale(1.07); }
+.pg-item::before { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(4,14,38,0); transition: background 0.4s; }
+.pg-item:hover::before { background: rgba(4,14,38,0.10); }
+.pg-shine { position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg, transparent 55%, rgba(4,14,38,0.58) 100%); opacity: 0; transition: opacity 0.4s ease; display: flex; align-items: flex-end; padding: 14px 16px; pointer-events: none; }
+.pg-item:hover .pg-shine { opacity: 1; }
+.pg-shine-label { font-size: 9px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.82); }
+.pg-tall-l  { grid-column: 1;   grid-row: 1 / 3; }
+.pg-wide-t  { grid-column: 2/4; grid-row: 1;     }
+.pg-sq-tr   { grid-column: 4;   grid-row: 1;     }
+.pg-tall-r  { grid-column: 5;   grid-row: 1 / 3; }
+.pg-sq-ml   { grid-column: 2;   grid-row: 2;     }
+.pg-wide-m  { grid-column: 3/5; grid-row: 2;     }
+.pg-wide-bl { grid-column: 1/3; grid-row: 3;     }
+.pg-sq-bc   { grid-column: 3;   grid-row: 3;     }
+.pg-wide-br { grid-column: 4/6; grid-row: 3;     }
+.pg-expanded {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 260px;
+  gap: 6px; margin-top: 6px; overflow: hidden; max-height: 0;
+  transition: max-height 0.65s var(--ease-out);
+}
+.pg-expanded.open { max-height: 2200px; }
+.pg-exp-item {
+  position: relative; overflow: hidden;
+  background: var(--light-grey); cursor: pointer;
+}
+/* Alternating wide spans: items 2, 6, 11 span 2 columns */
+.pg-exp-item:nth-child(2)  { grid-column: span 2; }
+.pg-exp-item:nth-child(6)  { grid-column: span 2; }
+.pg-exp-item:nth-child(11) { grid-column: span 2; }
+.pg-exp-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 0.75s var(--ease-out);
+}
+.pg-exp-item:hover .pg-exp-img { transform: scale(1.07); }
+.pg-exp-item::before { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(4,14,38,0); transition: background 0.4s; }
+.pg-exp-item:hover::before { background: rgba(4,14,38,0.14); }
+.pg-see-more-wrap { text-align: center; padding: 36px 0 0; }
+.pg-see-more { display: inline-flex; align-items: center; gap: 10px; font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; padding: 15px 36px; border: 2px solid var(--navy); color: var(--navy); background: transparent; cursor: pointer; transition: all 0.25s var(--ease-out); }
+.pg-see-more:hover, .pg-see-more.open { background: var(--navy); color: var(--white); }
+.pg-see-more svg { transition: transform 0.35s var(--ease-out); flex-shrink: 0; }
+.pg-see-more.open svg { transform: rotate(180deg); }
+.pg-lightbox { position: fixed; inset: 0; z-index: 9998; background: rgba(4,14,38,0.96); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.28s ease; }
+.pg-lightbox.open { opacity: 1; pointer-events: all; }
+.pg-lb-img { max-width: 88vw; max-height: 85vh; object-fit: contain; display: block; box-shadow: 0 32px 80px rgba(0,0,0,0.5); transform: scale(0.96); transition: transform 0.35s var(--ease-out); }
+.pg-lightbox.open .pg-lb-img { transform: scale(1); }
+.pg-lb-close, .pg-lb-prev, .pg-lb-next { position: absolute; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: var(--white); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; }
+.pg-lb-close:hover, .pg-lb-prev:hover, .pg-lb-next:hover { background: rgba(255,255,255,0.20); }
+.pg-lb-close { top: 20px; right: 24px; }
+.pg-lb-prev  { left: 20px;  top: 50%; transform: translateY(-50%); }
+.pg-lb-next  { right: 20px; top: 50%; transform: translateY(-50%); }
+.pg-lb-counter { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 700; letter-spacing: 0.20em; color: rgba(255,255,255,0.45); white-space: nowrap; }
+@media (max-width: 899px) {
+  .pg-mosaic { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 220px); }
+  .pg-tall-l, .pg-wide-t, .pg-sq-tr, .pg-tall-r, .pg-sq-ml, .pg-wide-m, .pg-wide-bl, .pg-sq-bc, .pg-wide-br { grid-column: auto; grid-row: auto; }
+  .pg-expanded { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 200px; }
+  .pg-exp-item:nth-child(2), .pg-exp-item:nth-child(6), .pg-exp-item:nth-child(11) { grid-column: span 2; }
+}
+@media (max-width: 639px) {
+  .photo-gallery { padding: 52px 0 0; }
+  .pg-mosaic { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(5, 160px); }
+  .pg-wide-br { grid-column: 1 / 3; }
+  .pg-expanded { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+  .pg-exp-item:nth-child(2), .pg-exp-item:nth-child(6), .pg-exp-item:nth-child(11) { grid-column: auto; }
+  .pg-lb-prev { left: 8px; } .pg-lb-next { right: 8px; }
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• IMPACT â•â•â•â•â•â•â•â•â•â•â•â• */
+.impact { padding: 80px 0; background: var(--ivory); position: relative; overflow: hidden; }
+.impact::before {
+  content: ""; position: absolute; top: -60px; right: -60px;
+  width: 320px; height: 320px; border-radius: 50%;
+  background: rgba(20,70,129,0.06); pointer-events: none;
+}
+.impact-head { margin-bottom: 48px; }
+.impact-head h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(30px, 5vw, 48px); line-height: 1.06;
+  color: var(--charcoal); margin-top: 10px;
+}
+.impact-sub { font-size: 14px; color: var(--mid-grey); margin-top: 12px; max-width: 500px; line-height: 1.7; }
+.impact-sub em { font-style: italic; color: var(--navy); font-weight: 500; }
+
+.impact-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+.impact-stat {
+  background: var(--white); padding: 28px 24px;
+  border-top: 4px solid var(--navy);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+}
+.impact-stat:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.impact-stat:nth-child(2) { border-top-color: var(--red); }
+.impact-stat:nth-child(3) { border-top-color: var(--gold); }
+.impact-stat:nth-child(4) { border-top-color: var(--sage); }
+.impact-stat .big-num {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(42px, 8vw, 68px); line-height: 1; color: var(--navy);
+  margin-bottom: 8px;
+}
+.impact-stat:nth-child(2) .big-num { color: var(--red); }
+.impact-stat:nth-child(3) .big-num { color: var(--gold); }
+.impact-stat:nth-child(4) .big-num { color: var(--sage); }
+.impact-stat .stat-name { font-size: 14px; font-weight: 700; color: var(--charcoal); }
+.impact-stat .stat-desc { font-size: 12px; color: var(--mid-grey); margin-top: 4px; line-height: 1.5; }
+
+.impact-cta-strip {
+  background: var(--navy); padding: 28px 32px;
+  display: flex; flex-direction: column; gap: 16px;
+  align-items: flex-start;
+}
+.impact-cta-strip p {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(18px, 3vw, 24px); color: rgba(255,255,255,0.90); line-height: 1.5;
+}
+.impact-cta-strip strong { font-style: normal; font-weight: 700; color: var(--white); }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• PROGRAMMES â•â•â•â•â•â•â•â•â•â•â•â• */
+.programmes { padding: 80px 0; background: var(--white); }
+.prog-head {
+  display: flex; flex-direction: column; gap: 16px;
+  margin-bottom: 40px;
+}
+.prog-head h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(30px, 5vw, 48px); line-height: 1.06;
+  color: var(--charcoal); margin-top: 10px;
+}
+.prog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.prog-card {
+  position: relative; overflow: hidden;
+  border: 1px solid var(--light-grey);
+  transition: border-color 0.3s, transform 0.35s var(--ease-out), box-shadow 0.35s;
+  display: block;
+}
+.prog-card:hover { transform: translateY(-6px); border-color: var(--navy); box-shadow: var(--shadow-lg); }
+.prog-img {
+  aspect-ratio: 16/10; overflow: hidden;
+}
+.prog-img-inner {
+  width: 100%; height: 100%;
+  background: var(--navy) center/cover no-repeat;
+  transition: transform 0.8s var(--ease-out);
+}
+.prog-card:hover .prog-img-inner { transform: scale(1.06); }
+.prog-tag {
+  position: absolute; top: 0; left: 0; z-index: 2;
+  background: var(--navy); color: var(--white);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+  padding: 6px 12px;
+}
+.prog-body { padding: 22px 24px 26px; border-left: 4px solid var(--navy); }
+.prog-card:nth-child(2) .prog-body { border-left-color: var(--red); }
+.prog-card:nth-child(2) .prog-tag { background: var(--red); }
+.prog-card:nth-child(3) .prog-body { border-left-color: var(--gold); }
+.prog-card:nth-child(3) .prog-tag { background: var(--gold); }
+.prog-body h3 { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--charcoal); line-height: 1.2; margin-bottom: 8px; }
+.prog-body p { font-size: 14px; color: var(--mid-grey); line-height: 1.7; margin-bottom: 16px; }
+.prog-reach { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--navy); }
+.prog-reach svg { color: var(--red); flex-shrink: 0; }
+.prog-card:nth-child(2) .prog-reach { color: var(--red); }
+.prog-foot { text-align: center; margin-top: 36px; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• SDG BADGES â•â•â•â•â•â•â•â•â•â•â•â• */
+.prog-sdgs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-top: 14px; padding-top: 12px;
+  border-top: 1px solid rgba(0,0,0,0.07);
+}
+.sdg-badge {
+  display: inline-flex; align-items: stretch;
+  font-size: 0; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+.sdg-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; font-size: 10px; font-weight: 900;
+  color: #fff; flex-shrink: 0; font-family: var(--sans);
+}
+.sdg-name {
+  display: inline-flex; align-items: center;
+  padding: 0 8px; font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--charcoal); background: rgba(0,0,0,0.05);
+  font-family: var(--sans);
+}
+.prog-sdg-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--mid-grey);
+  margin-bottom: 6px; display: block;
+}
+/* SDG header strip */
+.prog-sdg-strip {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 16px; padding: 10px 14px;
+  background: rgba(0,0,0,0.025); border-left: 3px solid var(--gold);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--mid-grey);
+}
+.prog-sdg-strip svg { flex-shrink: 0; color: var(--gold); }
+.prog-card:nth-child(4) .prog-body { border-left-color: var(--sage); }
+.prog-card:nth-child(4) .prog-tag  { background: var(--sage); }
+.prog-card:nth-child(4) .prog-reach { color: var(--sage); }
+.prog-card:nth-child(5) .prog-body { border-left-color: #5a7fa8; }
+.prog-card:nth-child(5) .prog-tag  { background: #5a7fa8; }
+.prog-card:nth-child(6) .prog-body { border-left-color: var(--navy-light); }
+.prog-card:nth-child(6) .prog-tag  { background: var(--navy-light); }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• VIDEO â•â•â•â•â•â•â•â•â•â•â•â• */
+.video-section { padding: 80px 0; background: var(--ivory); }
+.video-head { margin-bottom: 40px; }
+.video-head h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(30px, 5vw, 48px); line-height: 1.06;
+  color: var(--charcoal); margin-top: 10px; max-width: 600px;
+}
+.video-sub { font-size: 15px; color: var(--mid-grey); margin-top: 12px; max-width: 520px; line-height: 1.7; }
+.video-wrap {
+  position: relative; width: 100%; aspect-ratio: 16/9;
+  background: var(--navy-dark); overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.video-cover {
+  position: absolute; inset: 0; cursor: pointer;
+  background-size: cover; background-position: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+  transition: opacity 0.3s;
+}
+.video-cover::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,18,50,0.38) 0%, rgba(8,18,50,0.62) 100%);
+}
+.video-play-btn {
+  position: relative; z-index: 1;
+  width: 88px; height: 88px; border-radius: 50%;
+  background: var(--red-grad); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 12px 40px -8px rgba(236,50,55,0.60);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+.video-cover:hover .video-play-btn { transform: scale(1.12); box-shadow: 0 20px 52px -8px rgba(236,50,55,0.70); }
+.video-play-btn svg { margin-left: 5px; }
+.video-cover-label {
+  position: relative; z-index: 1;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.20em; text-transform: uppercase;
+  color: rgba(255,255,255,0.82);
+}
+.video-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• TRANSPARENCY â•â•â•â•â•â•â•â•â•â•â•â• */
+.transparency { padding: 80px 0; background: var(--navy); position: relative; overflow: hidden; }
+.transparency::before {
+  content: ""; position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    45deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 28px
+  );
+  pointer-events: none;
+}
+.trans-inner { position: relative; z-index: 1; }
+.trans-head { margin-bottom: 48px; }
+.trans-head h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(30px, 5vw, 48px); line-height: 1.06;
+  color: var(--white); margin-top: 10px;
+}
+.trans-head p { font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 12px; max-width: 520px; line-height: 1.7; }
+.trans-bars { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+.trans-bar { }
+.trans-bar-label {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.trans-bar-label span { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.85); }
+.trans-bar-label strong { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--white); }
+.trans-bar-track {
+  height: 6px; background: rgba(255,255,255,0.12); position: relative;
+}
+.trans-bar-fill {
+  height: 100%; width: 0;
+  transition: width 1.4s var(--ease-out);
+}
+.trans-bar:nth-child(1) .trans-bar-fill { background: var(--gold); }
+.trans-bar:nth-child(2) .trans-bar-fill { background: var(--sage); }
+.trans-bar:nth-child(3) .trans-bar-fill { background: rgba(255,255,255,0.5); }
+.trans-bar.animated .trans-bar-fill { /* width set via inline style */ }
+
+.trans-trust {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.trust-item {
+  padding: 18px 20px; border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  transition: background 0.25s;
+}
+.trust-item:hover { background: rgba(255,255,255,0.08); }
+.trust-item .t-label { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; font-weight: 700; color: rgba(255,255,255,0.45); margin-bottom: 6px; }
+.trust-item .t-val { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--white); line-height: 1.2; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• NEWS â•â•â•â•â•â•â•â•â•â•â•â• */
+.news { padding: 80px 0; background: var(--ivory); }
+.news-head-row {
+  display: flex; flex-direction: column; gap: 14px;
+  margin-bottom: 40px; padding-bottom: 22px;
+  border-bottom: 1px solid var(--light-grey);
+}
+.news-head-row h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(28px, 5vw, 44px); line-height: 1.06;
+  color: var(--charcoal); margin-top: 10px;
+}
+.news-all {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--navy); transition: gap 0.25s var(--ease-out); align-self: flex-start;
+}
+.news-all:hover { gap: 14px; color: var(--red); }
+.news-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.news-card {
+  background: var(--white); border: 1px solid var(--light-grey);
+  display: block; overflow: hidden;
+  transition: border-color 0.3s, transform 0.35s var(--ease-out), box-shadow 0.35s;
+}
+.news-card:hover { border-color: var(--navy); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.news-img { aspect-ratio: 16/9; overflow: hidden; }
+.news-img-inner { width: 100%; height: 100%; background: var(--ivory) center/cover no-repeat; transition: transform 0.85s var(--ease-out); }
+.news-card:hover .news-img-inner { transform: scale(1.06); }
+.news-body { padding: 20px 22px 22px; border-left: 4px solid transparent; transition: border-color 0.3s; }
+.news-card:hover .news-body { border-left-color: var(--navy); }
+.news-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.news-cat { font-size: 9px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; background: var(--navy); color: var(--white); padding: 3px 9px; }
+.news-date { font-size: 11px; color: var(--mid-grey); }
+.news-title { font-family: var(--serif); font-size: clamp(16px, 2.5vw, 20px); font-weight: 700; color: var(--charcoal); line-height: 1.25; margin-bottom: 8px; }
+.news-excerpt { font-size: 13px; color: var(--mid-grey); line-height: 1.65; margin-bottom: 14px; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.news-read { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); display: inline-flex; align-items: center; gap: 6px; }
+.news-empty { color: var(--mid-grey); font-size: 14px; text-align: center; padding: 40px 0; grid-column: 1/-1; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• TESTIMONIALS â•â•â•â•â•â•â•â•â•â•â•â• */
+.testimonials { padding: 80px 0; background: var(--white); }
+.testi-head { margin-bottom: 40px; }
+.testi-head h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(28px, 5vw, 44px); line-height: 1.06;
+  color: var(--charcoal); margin-top: 10px;
+}
+.testi-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.testi-card {
+  background: var(--ivory); padding: 28px 28px 26px;
+  border-left: 4px solid var(--navy); position: relative;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s var(--ease-out);
+}
+.testi-card:nth-child(2) { border-left-color: var(--red); }
+.testi-card:nth-child(3) { border-left-color: var(--gold); }
+.testi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.testi-mark {
+  font-family: var(--serif); font-size: 72px; font-weight: 700;
+  color: var(--navy); opacity: 0.12; line-height: 0.7;
+  position: absolute; top: 20px; right: 22px; pointer-events: none;
+}
+.testi-card:nth-child(2) .testi-mark { color: var(--red); }
+.testi-card:nth-child(3) .testi-mark { color: var(--gold); }
+.testi-quote { font-family: var(--serif); font-size: clamp(15px, 2vw, 18px); font-style: italic; font-weight: 400; line-height: 1.72; color: var(--charcoal); margin-bottom: 22px; }
+.testi-author { display: flex; align-items: center; gap: 14px; }
+.testi-ava {
+  width: 52px; height: 52px; flex-shrink: 0;
+  background: var(--navy) center/cover no-repeat;
+  border-radius: 50%; overflow: hidden;
+}
+.testi-name { font-size: 14px; font-weight: 700; color: var(--charcoal); }
+.testi-role { font-size: 11px; color: var(--mid-grey); margin-top: 2px; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• DONATE CTA â•â•â•â•â•â•â•â•â•â•â•â• */
+.donate-cta { padding: 0; background: var(--navy); }
+.donate-cta > .container { max-width: 100%; padding: 0; }
+.donate-cta-inner {
+  background: transparent; padding: 80px clamp(20px, 5vw, 80px);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 24px; align-items: flex-start;
+}
+.donate-cta-inner::before {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    120deg, rgba(255,255,255,0.03) 0 1.5px, transparent 1.5px 32px
+  ); pointer-events: none;
+}
+.donate-cta-inner::after {
+  content: ""; position: absolute; right: -80px; top: -80px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: rgba(236,50,55,0.08); pointer-events: none;
+}
+.donate-cta-inner h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(28px, 5vw, 48px); line-height: 1.06;
+  color: var(--white); position: relative; z-index: 1; max-width: 600px;
+}
+.donate-cta-inner h2 em { font-style: italic; font-weight: 400; color: rgba(255,255,255,0.80); }
+.donate-cta-inner p {
+  font-size: 15px; line-height: 1.72; color: rgba(255,255,255,0.68);
+  max-width: 540px; position: relative; z-index: 1;
+}
+.donate-tiers {
+  display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px;
+  width: 100%; position: relative; z-index: 1; margin: 22px 0 0;
+}
+.donate-tier {
+  flex: 1; min-width: 190px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  padding: 24px 18px 20px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  gap: 14px; cursor: pointer;
+  transition: transform 0.28s var(--ease-out), box-shadow 0.28s, background 0.28s;
+}
+.donate-tier:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.35); background: rgba(255,255,255,0.1); }
+.donate-tier .tier-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(212,175,55,0.15);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+}
+.donate-tier .tier-body { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
+.donate-tier .amount { font-family: var(--serif); font-size: 26px; font-weight: 800; color: var(--gold); line-height: 1; }
+.donate-tier .impact { font-size: 12px; color: rgba(255,255,255,0.88); margin-top: 5px; line-height: 1.55; }
+.donate-tier .arr { color: var(--gold); flex-shrink: 0; }
+.donate-cta-btns { display: flex; flex-wrap: wrap; gap: 12px; position: relative; z-index: 1; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• PARTNER STRIP â•â•â•â•â•â•â•â•â•â•â•â• */
+.partners { padding: 52px 0; background: var(--ivory); border-top: 1px solid var(--light-grey); }
+.partners-label { text-align: center; margin-bottom: 28px; font-size: 11px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--mid-grey); }
+.partners-row {
+  display: flex; flex-wrap: wrap; gap: 24px;
+  align-items: center; justify-content: center;
+}
+.partner-item {
+  font-family: var(--serif); font-size: 18px; font-weight: 600;
+  color: rgba(0,0,0,0.25); letter-spacing: 0.04em;
+  transition: color 0.25s; cursor: default;
+}
+.partner-item:hover { color: var(--navy); }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• FOOTER â•â•â•â•â•â•â•â•â•â•â•â• */
+.footer { background: var(--charcoal); padding: 64px 0 28px; }
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: 36px; }
+.footer-brand-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.footer-logo { height: 44px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.9; }
+.footer-brand p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.72; margin-bottom: 18px; max-width: 280px; }
+.footer-socials { display: flex; gap: 8px; }
+.footer-social {
+  width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+.footer-social:hover { border-color: var(--red); color: var(--white); background: rgba(236,50,55,0.2); }
+.footer-col h5 { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+.footer-col a, .footer-col address { display: block; font-size: 13px; color: rgba(255,255,255,0.45); padding: 4px 0; transition: color 0.2s; line-height: 1.6; font-style: normal; }
+.footer-col a:hover { color: rgba(255,255,255,0.90); }
+.footer-col .contact-row { display: flex; align-items: flex-start; gap: 8px; }
+.footer-col .contact-row svg { color: var(--red); flex-shrink: 0; margin-top: 3px; }
+.footer-newsletter { }
+.footer-newsletter p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 14px; }
+.newsletter-form { display: flex; gap: 0; }
+.newsletter-form input {
+  flex: 1; padding: 11px 14px;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  border-right: none; color: rgba(255,255,255,0.85); font-family: var(--sans); font-size: 13px; outline: none;
+  transition: border-color 0.2s;
+}
+.newsletter-form input::placeholder { color: rgba(255,255,255,0.30); }
+.newsletter-form input:focus { border-color: var(--red); }
+.newsletter-form button {
+  padding: 11px 18px; background: var(--red-grad); color: var(--white);
+  font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  white-space: nowrap; transition: opacity 0.2s;
+}
+.newsletter-form button:hover { opacity: 0.88; }
+.footer-bottom {
+  margin-top: 48px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: 11px; color: rgba(255,255,255,0.28); letter-spacing: 0.06em; text-align: center;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â• RESPONSIVE â•â•â•â•â•â•â•â•â•â•â•â• */
+@media (min-width: 480px) {
+  .hero-ctas .btn { }
+  .hero-stats-row { }
+  .mission-pillars { grid-template-columns: 1fr 1fr; }
+  .donate-tiers { flex-wrap: wrap; }
+}
+
+@media (min-width: 640px) {
+  .container { padding: 0 28px; }
+  .hero-stat-cell { padding: 28px 20px; gap: 6px; }
+  .stat-sub { display: block; }
+  .impact-stats { grid-template-columns: repeat(4, 1fr); }
+  .prog-grid { grid-template-columns: repeat(2, 1fr); }
+  .news-grid { grid-template-columns: 1fr 1fr; }
+  .testi-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid > .footer-brand { grid-column: 1 / -1; }
+  .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
+}
+
+@media (min-width: 780px) {
+  .container { padding: 0 32px; }
+  .nav { padding: 0 32px; }
+  .nav-links { display: flex; gap: 0; }
+  .nav-donate { display: inline-flex; }
+  .nav-burger { display: none; }
+  .about-grid { grid-template-columns: 1fr 1.2fr; align-items: center; }
+  .mission-pillars { grid-template-columns: 1fr 1fr; }
+  .news-head-row { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+  .news-all { align-self: auto; }
+  .prog-head { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+  .testi-grid { grid-template-columns: repeat(3, 1fr); }
+  .donate-left { width: 100%; max-width: 100%; }
+  .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1.3fr; }
+  .footer-grid > .footer-brand { grid-column: auto; }
+}
+
+@media (min-width: 900px) {
+  .nav { padding: 0 40px; }
+  .container { padding: 0 40px; }
+  .mission-pillars { grid-template-columns: repeat(4, 1fr); }
+  .about, .impact, .programmes, .transparency, .news, .testimonials, .donate-cta, .partners { padding: 96px 0; }
+  .mission-strip { padding: 64px 0; }
+  .prog-grid { grid-template-columns: repeat(3, 1fr); }
+  .news-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1080px) {
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MOBILE — max 639px
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+@media (max-width: 639px) {
+
+  /* â”€ Global â”€ */
+  .container { padding: 0 16px; }
+  .about, .gallery, .programmes, .transparency, .video-section,
+  .news, .testimonials, .donate-cta, .partners { padding: 52px 0; }
+  .impact { padding: 52px 0; }
+  .mission-strip { padding: 40px 0; }
+
+  /* â”€ Nav â”€ */
+  .nav { padding: 0 16px; height: 60px; }
+  .nav.scrolled { height: 56px; }
+  .nav-logo { height: 34px; }
+
+  /* â”€ Mobile menu â”€ */
+  .mobile-menu a { font-size: 28px; }
+
+  /* â”€ Hero â”€ */
+  .hero { align-items: center; padding-bottom: 0; padding-top: 10vh; }
+  .hero h1 {
+    font-size: clamp(44px, 13vw, 64px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    max-width: 100%;
+    word-break: break-word;
+  }
+  .hero-headline-wrap { min-height: clamp(120px, 32vw, 180px); margin-bottom: 12px; }
+  .hero-eyebrow span { font-size: 9px; letter-spacing: 0.20em; font-weight: 800; }
+  .hero-content { padding: 0 16px; }
+  .hero-ctas { flex-direction: column; align-items: center; gap: 10px; }
+  .hero-ctas .btn { width: 100%; max-width: 280px; justify-content: center; padding: 14px 20px; font-size: 13px; }
+
+  /* â”€ Hero stats â”€ */
+  .hero-stats-row { grid-template-columns: 1fr; }
+  .hero-stat-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.10); padding: 24px 20px; }
+  .hero-stat-cell::before { left: 50%; transform: translateX(-50%); width: 28px; }
+  .hero-stat-cell:last-child { border-bottom: none; }
+
+  /* â”€ Mission pillars â”€ */
+  .mission-pillars { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pillar { padding: 24px 16px; gap: 10px; }
+  .pillar-icon { width: 44px; height: 44px; }
+  .pillar-icon svg { width: 20px; height: 20px; }
+  .pillar-text strong { font-size: 14px; }
+  .pillar-text span { font-size: 11px; }
+
+  /* â”€ About â”€ */
+  .about-grid { gap: 32px; }
+  .about-img-wrap { aspect-ratio: 4/3; }
+  .about-badge { padding: 14px 16px; }
+  .about-badge .n { font-size: 28px; }
+  .about-badge .l { font-size: 9px; }
+  .about-copy h2 { font-size: clamp(26px, 7vw, 36px); }
+  .about-copy p { font-size: 14px; }
+  .acc-trigger { font-size: 14px; padding: 14px 0; }
+
+
+  /* â”€ Impact â”€ */
+  .impact-head h2 { font-size: clamp(24px, 6.5vw, 36px); }
+  .impact-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .impact-stat { padding: 20px 16px; }
+  .impact-stat .big-num { font-size: clamp(32px, 8vw, 48px); }
+  .impact-cta-strip { padding: 22px 20px; }
+  .impact-cta-strip p { font-size: 16px; }
+
+  /* â”€ Programmes â”€ */
+  .prog-grid { grid-template-columns: 1fr; }
+  .prog-body h3 { font-size: 18px; }
+
+  /* â”€ Transparency â”€ */
+  .trans-trust { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .trust-item { padding: 14px 14px; }
+  .trust-item .t-val { font-size: 15px; }
+
+  /* â”€ News â”€ */
+  .news-grid { grid-template-columns: 1fr; }
+  .news-head-row { flex-direction: column; gap: 12px; }
+
+  /* â”€ Testimonials â”€ */
+  .testi-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  /* â”€ Donate CTA â”€ */
+  .donate-cta-inner { padding: 48px 20px; }
+  .donate-tiers { flex-direction: column; gap: 8px; }
+  .donate-cta-btns { flex-direction: column; gap: 10px; }
+  .donate-cta-btns .btn { width: 100%; justify-content: center; text-align: center; }
+
+  /* â”€ Partners â”€ */
+  .partners-row { gap: 16px; }
+  .partner-item { font-size: 16px; }
+
+  /* â”€ Footer â”€ */
+  .footer { padding: 48px 0 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-grid > .footer-brand { grid-column: auto; }
+  .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+  .newsletter-form { flex-direction: column; }
+  .newsletter-form input { border-right: 1px solid rgba(255,255,255,0.12); border-bottom: none; }
+  .newsletter-form button { width: 100%; padding: 12px; }
+
+  /* â”€ Buttons â”€ */
+  .btn { font-size: 13px; padding: 13px 22px; }
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   VERY SMALL — max 379px
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+@media (max-width: 379px) {
+  .hero h1 { font-size: 38px; font-weight: 900; line-height: 1.0; }
+  .mission-pillars { grid-template-columns: 1fr; }
+  .pillar { flex-direction: row; align-items: flex-start; gap: 12px; padding: 20px 16px; }
+  .impact-stats { grid-template-columns: 1fr; }
+  .trans-trust { grid-template-columns: 1fr; }
+  .hero-ctas .btn { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- â•â• NAV â•â• -->
+<nav class="nav" id="nav">
+  <a href="#top" class="nav-brand" data-nav="top">
+    <img loading="lazy" src="IBADE LOGO.png" class="nav-logo" alt="Ibhade Charity Foundation">
+  </a>
+  <div class="nav-links">
+    <a href="#top"           data-nav="top">Home</a>
+    <a href="#about"         data-nav="about">About Us</a>
+    <a href="#impact"        data-nav="impact">Our Impact</a>
+    <a href="#programmes"    data-nav="programmes">Projects</a>
+    <a href="#news"          data-nav="news">Publications</a>
+    <a href="ngo-blog.html"                >Blog</a>
+    <a href="#donate"        class="nav-donate" data-nav="donate">Donate Now</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#top"        class="mob-link">Home</a>
+  <a href="#about"      class="mob-link">About Us</a>
+  <a href="#impact"     class="mob-link">Our Impact</a>
+  <a href="#programmes" class="mob-link">Projects</a>
+  <a href="#news"       class="mob-link">Publications</a>
+  <a href="ngo-blog.html"              >Blog</a>
+  <a href="#donate"     class="mob-link mob-donate">Donate Now</a>
+</div>
+
+<!-- â•â• HERO â•â• -->
+<section class="hero" id="top">
+  <div class="hero-slides" id="hero-slides">
+    <div class="hero-slide active" style="background-image:url('images/BEE00494.webp')"></div>
+    <div class="hero-slide" style="background-image:url('images/BEE00787.webp')"></div>
+    <div class="hero-slide" style="background-image:url('images/BEE00320.webp')"></div>
+    <div class="hero-slide" style="background-image:url('images/BEE00934.webp')"></div>
+  </div>
+
+  <div style="width:100%;position:relative;z-index:3;">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="pulse-dot"></div>
+        <span>Community · Impact · Accountability</span>
+      </div>
+      <div class="hero-headline-wrap">
+        <h1 id="hero-headline">Real change. <em>Verified</em> impact.</h1>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn btn-red" data-scroll="donate">
+          Donate Now
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn btn-outline-white" data-scroll="about">Learn Our Story</button>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Stats strip — deliberately below the fold -->
+<div class="hero-stats">
+  <div class="hero-stats-row">
+    <div class="hero-stat-cell">
+      <div class="stat-num">12,<span>000</span>+</div>
+      <div class="stat-label">Lives Impacted</div>
+      <div class="stat-sub">Verified beneficiaries since 2018</div>
+    </div>
+    <div class="hero-stat-cell">
+      <div class="stat-num">47</div>
+      <div class="stat-label">Active Projects</div>
+      <div class="stat-sub">Across 6 states in Nigeria</div>
+    </div>
+    <div class="hero-stat-cell">
+      <div class="stat-num">91<span>%</span></div>
+      <div class="stat-label">Programme Delivery</div>
+      <div class="stat-sub">Of every donation goes to field work</div>
+    </div>
+  </div>
+</div>
+
+<!-- â•â• ABOUT â•â• -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <div class="about-img" style="background-image:url('images/BEE00794.webp');"></div>
+        <div class="about-frame"></div>
+        <div class="about-badge">
+          <div class="n">6+</div>
+          <span class="l">Years of Impact</span>
+        </div>
+      </div>
+      <div class="about-copy reveal delay-2">
+        <span class="eyebrow" style="color:var(--red);">Together We Rise</span>
+        <h2>Standing with widows.<br>Building <em>futures</em> for families.</h2>
+        <p>Ibhade Charity Foundation is dedicated to widows and their children — restoring dignity, building economic independence, and creating pathways to hope through transparent, community-rooted action.</p>
+        <p>We walk alongside every widow: from grief to empowerment, from survival to thriving.</p>
+        <div class="about-divider"></div>
+        <div class="about-accordion">
+          <div class="acc-item open">
+            <button class="acc-trigger">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              <span>Our Mission</span>
+            </button>
+            <div class="acc-body">
+              <p>To provide holistic support to widows and their children through education, economic empowerment, healthcare access, and community reintegration — restoring dignity one family at a time.</p>
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              <span>Our Vision</span>
+            </button>
+            <div class="acc-body">
+              <p>A Nigeria where no widow or her children lack dignity, opportunity, or hope — where widowhood is not a sentence but a chapter from which every woman can rise.</p>
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              <span>Our Values</span>
+            </button>
+            <div class="acc-body">
+              <p>Transparency, accountability, community ownership, and verified impact. We act, we prove, and we account for every naira entrusted to us.</p>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:20px;">
+          <button class="btn btn-navy" data-scroll="impact">
+            See Our Impact
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• MISSION STRIP â•â• -->
+<section class="mission-strip">
+  <div class="container">
+    <div class="mission-strip-inner reveal">
+      <div class="mission-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="pillar-text"><strong>We Act</strong><span>Active, not theoretical</span></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4M12 3a9 9 0 100 18A9 9 0 0012 3z"/></svg>
+          </div>
+          <div class="pillar-text"><strong>We Prove</strong><span>Results, not promises</span></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4.5v5c0 4.5-3.5 7.5-8 9-4.5-1.5-8-4.5-8-9v-5L12 3z"/></svg>
+          </div>
+          <div class="pillar-text"><strong>We Account</strong><span>Full financial transparency</span></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="pillar-text"><strong>We Belong</strong><span>Operating from within</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• GALLERY â•â• -->
+<section class="photo-gallery" id="gallery">
+  <div class="container">
+    <div class="pg-head reveal">
+      <span class="eyebrow">In the Field</span>
+      <h2>Every photo is a story<br>of <em>real change</em>.</h2>
+      <p>From boreholes drilled to classrooms filled — captured by our field teams across Nigeria.</p>
+    </div>
+  </div>
+  <div class="pg-mosaic">
+    <div class="pg-item pg-tall-l reveal" onclick="pgOpen(0)"><div class="pg-img" style="background-image:url('images/BEE00785.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Community</span></div></div>
+    <div class="pg-item pg-wide-t reveal delay-1" onclick="pgOpen(1)"><div class="pg-img" style="background-image:url('images/BEE00494.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Field Work</span></div></div>
+    <div class="pg-item pg-sq-tr reveal delay-2" onclick="pgOpen(2)"><div class="pg-img" style="background-image:url('images/BEE00787.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Outreach</span></div></div>
+    <div class="pg-item pg-tall-r reveal delay-1" onclick="pgOpen(3)"><div class="pg-img" style="background-image:url('images/BEE00794.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Empowerment</span></div></div>
+    <div class="pg-item pg-sq-ml reveal delay-2" onclick="pgOpen(4)"><div class="pg-img" style="background-image:url('images/BEE00643.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Women</span></div></div>
+    <div class="pg-item pg-wide-m reveal delay-3" onclick="pgOpen(5)"><div class="pg-img" style="background-image:url('images/BEE00900.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Families</span></div></div>
+    <div class="pg-item pg-wide-bl reveal delay-1" onclick="pgOpen(6)"><div class="pg-img" style="background-image:url('images/BEE00492.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Healthcare</span></div></div>
+    <div class="pg-item pg-sq-bc reveal delay-2" onclick="pgOpen(7)"><div class="pg-img" style="background-image:url('images/BEE00320.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Education</span></div></div>
+    <div class="pg-item pg-wide-br reveal delay-3" onclick="pgOpen(8)"><div class="pg-img" style="background-image:url('images/BEE00934.webp')"></div><div class="pg-shine"><span class="pg-shine-label">Impact</span></div></div>
+  </div>
+  <div class="pg-expanded" id="pg-expanded">
+    <div class="pg-exp-item" onclick="pgOpen(9)"><div class="pg-exp-img" style="background-image:url('images/BEE00305.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(10)"><div class="pg-exp-img" style="background-image:url('images/BEE00360.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(11)"><div class="pg-exp-img" style="background-image:url('images/BEE00497.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(12)"><div class="pg-exp-img" style="background-image:url('images/BEE00563.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(13)"><div class="pg-exp-img" style="background-image:url('images/BEE00576.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(14)"><div class="pg-exp-img" style="background-image:url('images/BEE00640.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(15)"><div class="pg-exp-img" style="background-image:url('images/BEE00645.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(16)"><div class="pg-exp-img" style="background-image:url('images/BEE00650.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(17)"><div class="pg-exp-img" style="background-image:url('images/BEE00789.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(18)"><div class="pg-exp-img" style="background-image:url('images/BEE00907.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(19)"><div class="pg-exp-img" style="background-image:url('images/BEE00948.webp')"></div></div>
+    <div class="pg-exp-item" onclick="pgOpen(20)"><div class="pg-exp-img" style="background-image:url('images/BEE00968.webp')"></div></div>
+  </div>
+  <div class="pg-see-more-wrap">
+    <button class="pg-see-more" id="pg-see-more-btn" onclick="pgToggle()">
+      <span id="pg-btn-text">See More Photos</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="pg-lightbox" id="pg-lightbox" onclick="pgLbBg(event)">
+  <button class="pg-lb-close" onclick="pgClose()" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <button class="pg-lb-prev" onclick="pgPrev(event)" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <img class="pg-lb-img" id="pg-lb-img" src="" alt="Gallery photo">
+  <button class="pg-lb-next" onclick="pgNext(event)" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
+  <div class="pg-lb-counter" id="pg-lb-counter"></div>
+</div>
+
+<!-- â•â• IMPACT â•â• -->
+<section class="impact" id="impact">
+  <div class="container">
+    <div class="impact-head reveal">
+      <span class="eyebrow">Our Impact</span>
+      <h2>Not estimates. Not projections.<br>These are verified outcomes.</h2>
+      <p class="impact-sub">Every number below comes from field verification in the last 12 months of work. <em>We don't publish what we can't prove.</em></p>
+    </div>
+    <div class="impact-stats">
+      <div class="impact-stat reveal delay-1">
+        <div class="big-num">12K+</div>
+        <div class="stat-name">Beneficiaries Reached</div>
+        <div class="stat-desc">Individuals who received direct programme support in 2024</div>
+      </div>
+      <div class="impact-stat reveal delay-2">
+        <div class="big-num">3,200</div>
+        <div class="stat-name">Children in School</div>
+        <div class="stat-desc">Enrolled or retained through our education programme</div>
+      </div>
+      <div class="impact-stat reveal delay-3">
+        <div class="big-num">28</div>
+        <div class="stat-name">Water Points Drilled</div>
+        <div class="stat-desc">Clean water access for rural communities in Edo &amp; Delta</div>
+      </div>
+      <div class="impact-stat reveal delay-4">
+        <div class="big-num">6</div>
+        <div class="stat-name">States Active</div>
+        <div class="stat-desc">Across southern and north-central Nigeria in 2024</div>
+      </div>
+    </div>
+    <div class="impact-cta-strip reveal">
+      <p><strong>"Every donation has visible impact."</strong> We publish our full expenditure breakdowns quarterly. You can read our latest financial report.</p>
+      <button class="btn btn-gold" data-scroll="donate">
+        Turn Data Into Change
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• VIDEO â•â• -->
+<section class="video-section">
+  <div class="container">
+    <div class="video-head reveal">
+      <span class="eyebrow">Our Work in Action</span>
+      <h2>See the change<br>we're building <em>together</em>.</h2>
+      <p class="video-sub">From boreholes drilled to classrooms filled — watch how your support transforms lives across Nigeria. Real people, real outcomes.</p>
+    </div>
+    <div class="video-wrap reveal delay-2" id="video-wrap">
+      <div class="video-cover" id="video-cover" style="background-image:url('images/BEE00492.webp');">
+        <div class="video-play-btn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="video-cover-label">Watch Our Story</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• PROGRAMMES â•â• -->
+<section class="programmes" id="programmes">
+  <div class="container">
+    <div class="prog-head reveal">
+      <div>
+        <span class="eyebrow">Our Programmes</span>
+        <h2>Where your support<br>creates change.</h2>
+      </div>
+      <div style="max-width:400px;">
+        <p style="font-size:14px;color:var(--mid-grey);line-height:1.7;">Six programme areas, each aligned to the <strong style="color:var(--charcoal)">UN Sustainable Development Goals</strong> — with dedicated field teams, measurable targets, and publicly reported outcomes.</p>
+        <div class="prog-sdg-strip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Aligned to the 2030 Agenda for Sustainable Development
+        </div>
+      </div>
+    </div>
+    <div class="prog-grid">
+      <!-- Education — SDG 4 -->
+      <div class="prog-card reveal delay-1">
+        <div class="prog-img">
+          <div class="prog-img-inner" style="background-image:url('images/BEE00563.webp');"></div>
+        </div>
+        <span class="prog-tag">Education</span>
+        <div class="prog-body">
+          <h3>Learning Without Barriers</h3>
+          <p>Free learning materials, school rehabilitation, teacher training, and scholarship support for 3,200 children — ensuring inclusive, equitable, quality education for every child.</p>
+          <div class="prog-reach">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg>
+            Edo, Delta &amp; Ondo States · 18 schools
+          </div>
+          <div class="prog-sdgs">
+            <span class="prog-sdg-label">UN SDG Alignment</span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#C5192D;">4</span>
+              <span class="sdg-name">Quality Education</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- Water — SDG 6 -->
+      <div class="prog-card reveal delay-2">
+        <div class="prog-img">
+          <div class="prog-img-inner" style="background-image:url('images/BEE00360.webp');"></div>
+        </div>
+        <span class="prog-tag">Clean Water</span>
+        <div class="prog-body">
+          <h3>Water for Every Village</h3>
+          <p>Borehole drilling, water point rehabilitation, and community water management training — advancing universal access to safe, affordable drinking water and sanitation for all.</p>
+          <div class="prog-reach">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg>
+            Edo &amp; Delta States · 28 boreholes
+          </div>
+          <div class="prog-sdgs">
+            <span class="prog-sdg-label">UN SDG Alignment</span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#26BDE2;">6</span>
+              <span class="sdg-name">Clean Water &amp; Sanitation</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- Health — SDG 3 -->
+      <div class="prog-card reveal delay-3">
+        <div class="prog-img">
+          <div class="prog-img-inner" style="background-image:url('images/BEE00497.webp');"></div>
+        </div>
+        <span class="prog-tag">Healthcare</span>
+        <div class="prog-body">
+          <h3>Health Within Reach</h3>
+          <p>Free medical outreaches, maternal health support, and community health worker training — ensuring healthy lives and promoting well-being for all ages at every income level.</p>
+          <div class="prog-reach">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg>
+            6 LGAs · 4,800+ patients served
+          </div>
+          <div class="prog-sdgs">
+            <span class="prog-sdg-label">UN SDG Alignment</span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#4C9F38;">3</span>
+              <span class="sdg-name">Good Health &amp; Well-being</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- Economic Empowerment — SDG 5 + 8 -->
+      <div class="prog-card reveal delay-1">
+        <div class="prog-img">
+          <div class="prog-img-inner" style="background-image:url('images/BEE00643.webp');"></div>
+        </div>
+        <span class="prog-tag">Empowerment</span>
+        <div class="prog-body">
+          <h3>Widows' Economic Empowerment</h3>
+          <p>Vocational skills training, seed grants, and cooperative formation for widows — advancing gender equality and promoting decent, sustainable livelihoods for women and their families.</p>
+          <div class="prog-reach">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg>
+            Edo, Delta &amp; Ondo · 600+ widows trained
+          </div>
+          <div class="prog-sdgs">
+            <span class="prog-sdg-label">UN SDG Alignment</span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#FF3A21;">5</span>
+              <span class="sdg-name">Gender Equality</span>
+            </span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#A21942;">8</span>
+              <span class="sdg-name">Decent Work</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- Child Nutrition — SDG 2 + 3 -->
+      <div class="prog-card reveal delay-2">
+        <div class="prog-img">
+          <div class="prog-img-inner" style="background-image:url('images/BEE00907.webp');"></div>
+        </div>
+        <span class="prog-tag">Nutrition</span>
+        <div class="prog-body">
+          <h3>Nourishing the Next Generation</h3>
+          <p>Monthly nutrition support, micronutrient distribution, and community feeding programmes — working towards zero hunger and improved health outcomes for children and nursing mothers.</p>
+          <div class="prog-reach">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg>
+            6 States · 2,400 children reached
+          </div>
+          <div class="prog-sdgs">
+            <span class="prog-sdg-label">UN SDG Alignment</span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#DDA63A;">2</span>
+              <span class="sdg-name">Zero Hunger</span>
+            </span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#4C9F38;">3</span>
+              <span class="sdg-name">Good Health</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- Crisis Relief — SDG 1 + 10 -->
+      <div class="prog-card reveal delay-3">
+        <div class="prog-img">
+          <div class="prog-img-inner" style="background-image:url('images/BEE00968.webp');"></div>
+        </div>
+        <span class="prog-tag">Emergency Aid</span>
+        <div class="prog-body">
+          <h3>Crisis Response &amp; Emergency Relief</h3>
+          <p>Rapid deployment of food parcels, shelter support, and psychosocial aid — tackling extreme poverty and reducing inequalities for the most vulnerable widows and families within 72 hours.</p>
+          <div class="prog-reach">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg>
+            Nationwide · 1,800+ families assisted
+          </div>
+          <div class="prog-sdgs">
+            <span class="prog-sdg-label">UN SDG Alignment</span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#E5243B;">1</span>
+              <span class="sdg-name">No Poverty</span>
+            </span>
+            <span class="sdg-badge">
+              <span class="sdg-num" style="background:#DD1367;">10</span>
+              <span class="sdg-name">Reduced Inequalities</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="prog-foot reveal">
+      <button class="btn btn-outline-navy" data-scroll="donate">
+        Support a Programme
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• TRANSPARENCY â•â• -->
+<section class="transparency">
+  <div class="container">
+    <div class="trans-inner">
+      <div class="trans-head reveal">
+        <span class="eyebrow on-dark">Financial Transparency</span>
+        <h2>91 kobo of every naira goes<br>directly to programmes.</h2>
+        <p>We publish our full financial accounts annually. Audited by an independent firm. Available to any donor who asks.</p>
+      </div>
+      <div class="trans-bars reveal delay-1" id="trans-bars">
+        <div class="trans-bar">
+          <div class="trans-bar-label">
+            <span>Programme Delivery</span>
+            <strong>91%</strong>
+          </div>
+          <div class="trans-bar-track"><div class="trans-bar-fill" style="width:0" data-width="91%"></div></div>
+        </div>
+        <div class="trans-bar">
+          <div class="trans-bar-label">
+            <span>Field Operations &amp; Logistics</span>
+            <strong>6%</strong>
+          </div>
+          <div class="trans-bar-track"><div class="trans-bar-fill" style="width:0" data-width="6%"></div></div>
+        </div>
+        <div class="trans-bar">
+          <div class="trans-bar-label">
+            <span>Administration &amp; Reporting</span>
+            <strong>3%</strong>
+          </div>
+          <div class="trans-bar-track"><div class="trans-bar-fill" style="width:0" data-width="3%"></div></div>
+        </div>
+      </div>
+      <div class="trans-trust reveal delay-2">
+        <div class="trust-item">
+          <div class="t-label">Registration</div>
+          <div class="t-val">CAC Registered<br>Nigeria</div>
+        </div>
+        <div class="trust-item">
+          <div class="t-label">Annual Audit</div>
+          <div class="t-val">Independent<br>External Audit</div>
+        </div>
+        <div class="trust-item">
+          <div class="t-label">Reporting</div>
+          <div class="t-val">Quarterly<br>Impact Reports</div>
+        </div>
+        <div class="trust-item">
+          <div class="t-label">Field Verification</div>
+          <div class="t-val">M&amp;E Team<br>On Every Project</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• NEWS â•â• -->
+<section class="news" id="news">
+  <div class="container">
+    <div class="news-head-row reveal">
+      <div>
+        <span class="eyebrow">Publications</span>
+        <h2>Latest from Ibhade.</h2>
+      </div>
+      <a href="ngo-blog.html" class="news-all">
+        All Publications
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="news-grid" id="news-grid">
+      <div class="news-empty">Loading latest updates…</div>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• TESTIMONIALS â•â• -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="testi-head reveal">
+      <span class="eyebrow">Community Voices</span>
+      <h2>Not donor testimonials.<br>Community testimonials.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal delay-1">
+        <div class="testi-mark">"</div>
+        <p class="testi-quote">The borehole Ibhade drilled in our community ended a two-kilometre daily walk to fetch water. My daughters now go to school instead of the stream. That is what real change looks like.</p>
+        <div class="testi-author">
+          <div class="testi-ava" style="background-image:url('images/BEE00900.webp')"></div>
+          <div>
+            <div class="testi-name">Folake Adeyemi</div>
+            <div class="testi-role">Farmer, Ovia North-East LGA, Edo State</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal delay-2">
+        <div class="testi-mark">"</div>
+        <p class="testi-quote">I was going to drop out in JSS2 because my family couldn't afford books. The scholarship changed everything. I sat my WAEC last year — I passed with five credits.</p>
+        <div class="testi-author">
+          <div class="testi-ava" style="background-image:url('images/BEE00789.webp')"></div>
+          <div>
+            <div class="testi-name">Chidera Umeh</div>
+            <div class="testi-role">Scholarship Beneficiary, Anambra State</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal delay-3">
+        <div class="testi-mark">"</div>
+        <p class="testi-quote">We've partnered with many NGOs. Ibhade is the only one that comes back three months later to show you exactly what happened to every naira. That accountability is rare.</p>
+        <div class="testi-author">
+          <div class="testi-ava" style="background-image:url('images/BEE00576.webp')"></div>
+          <div>
+            <div class="testi-name">Mohammed Ibrahim</div>
+            <div class="testi-role">Development Partner, Abuja</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• DONATE CTA â•â• -->
+<section class="donate-cta" id="donate">
+  <div class="container">
+    <div class="donate-cta-inner reveal">
+      <div class="donate-left">
+        <span class="eyebrow on-dark" style="margin-bottom:16px; display:inline-flex;">Give Today</span>
+        <h2>Your â‚¦5,000 plants<br>a water point. Your $100<br><em>keeps a classroom open.</em></h2>
+        <p style="margin-top:8px;">Every donation is allocated to a specific programme. You will receive a receipt showing exactly where your money went — within 48 hours.</p>
+        <div class="donate-tiers">
+          <div class="donate-tier">
+            <div class="tier-icon">
+              <!-- Book / education icon -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div class="tier-body">
+              <div>
+                <div class="amount">â‚¦5,000</div>
+                <div class="impact">Provides a child with a full term's learning materials</div>
+              </div>
+              <div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+          <div class="donate-tier">
+            <div class="tier-icon">
+              <!-- Water drop / community icon -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6 8 4 12 4 15a8 8 0 0 0 16 0c0-3-2-7-8-13z"/></svg>
+            </div>
+            <div class="tier-body">
+              <div>
+                <div class="amount">â‚¦25,000</div>
+                <div class="impact">Contributes to one water point installation</div>
+              </div>
+              <div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+          <div class="donate-tier">
+            <div class="tier-icon">
+              <!-- Heart / health icon -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div class="tier-body">
+              <div>
+                <div class="amount">â‚¦100,000</div>
+                <div class="impact">Funds a full medical outreach for 200 patients</div>
+              </div>
+              <div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="donate-cta-btns" style="margin-top:24px;">
+          <a href="mailto:give@ibhadecharity.org" class="btn btn-red">
+            Donate Now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="mailto:partner@ibhadecharity.org" class="btn btn-outline-white">Become a Partner</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• PARTNERS â•â• -->
+<section class="partners">
+  <div class="container">
+    <div class="partners-label reveal">Trusted partners &amp; supporters</div>
+    <div class="partners-row reveal delay-1">
+      <div class="partner-item">UNICEF Nigeria</div>
+      <div class="partner-item">USAID</div>
+      <div class="partner-item">Edo State Government</div>
+      <div class="partner-item">WHO Nigeria</div>
+      <div class="partner-item">GTBank Foundation</div>
+      <div class="partner-item">Dangote Foundation</div>
+    </div>
+  </div>
+</section>
+
+<!-- â•â• FOOTER â•â• -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-logo">
+          <img loading="lazy" src="IBADE LOGO.png" class="footer-logo" alt="Ibhade Charity Foundation">
+        </div>
+        <p>An impact-driven, community-rooted organisation transforming lives through transparent action and verifiable outcomes across Nigeria.</p>
+        <div class="footer-socials">
+          <a class="footer-social" href="https://www.facebook.com/ibhadecharityfoundation" aria-label="Facebook" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a class="footer-social" href="https://www.twitter.com/ibhadecharityfoundation" aria-label="Twitter/X" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+          </a>
+          <a class="footer-social" href="https://www.instagram.com/ibhadecharityfoundation" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a class="footer-social" href="https://www.linkedin.com/company/ibhadecharityfoundation" aria-label="LinkedIn" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 3a2 2 0 110 4 2 2 0 010-4z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <a href="#about">About Us</a>
+        <a href="#impact">Our Impact</a>
+        <a href="#programmes">Our Projects</a>
+        <a href="#news">Publications</a>
+        <a href="ngo-blog.html">Blog</a>
+        <a href="#donate">Volunteer</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <div class="contact-row">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg>
+          <address>Ibhade Charity Foundation<br>Pennsylvania, USA</address>
+        </div>
+        <div class="contact-row" style="margin-top:8px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v14H3zM3 5l9 8 9-8"/></svg>
+          <a href="mailto:info@ibhadecharity.org">info@ibhadecharity.org</a>
+        </div>
+        <div class="contact-row" style="margin-top:8px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A18 18 0 013 6a2 2 0 012-2z"/></svg>
+          <a href="tel:+19517332901">+1 (951) 733-2901</a>
+        </div>
+      </div>
+      <div class="footer-col footer-newsletter">
+        <h5>Newsletter</h5>
+        <p>Get quarterly impact reports and field updates delivered to your inbox.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="your@email.com" aria-label="Email address" />
+          <button type="button">Subscribe</button>
+        </div>
+        <p style="font-size:11px;color:rgba(255,255,255,0.28);margin-top:10px;line-height:1.5;">No spam. Impact updates only. Unsubscribe anytime.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Ibhade Charity Foundation. All rights reserved.</div>
+      <div>Results you can see. People you can trust.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* â”€â”€ Nav scroll â”€â”€ */
+  var nav = document.getElementById('nav');
+  function updateNav() {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }
+  updateNav();
+  window.addEventListener('scroll', updateNav, { passive: true });
+
+  /* â”€â”€ Scroll-to â”€â”€ */
+  function scrollTo(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 68, behavior: 'smooth' });
+  }
+  document.querySelectorAll('[data-scroll]').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); scrollTo(el.dataset.scroll); });
+  });
+  document.querySelectorAll('[data-nav]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); scrollTo(a.dataset.nav); });
+  });
+
+  /* â”€â”€ Burger â”€â”€ */
+  var burger = document.getElementById('nav-burger');
+  var mobileMenu = document.getElementById('mobile-menu');
+  burger.addEventListener('click', function () {
+    burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mob-link').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var href = a.getAttribute('href');
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+      if (href && href.startsWith('#')) setTimeout(function () { scrollTo(href.slice(1)); }, 200);
+    });
+  });
+
+  /* â”€â”€ Hero: one unified timer — image + text transition together â”€â”€ */
+  var slides    = document.querySelectorAll('.hero-slide');
+  var heroEl    = document.getElementById('hero-headline');
+  var eyebrowEl = document.querySelector('.hero-eyebrow');
+  var ctaEl     = document.querySelector('.hero-ctas');
+  var heroTexts = [
+    'Restoring dignity. <em>Empowering</em> widows.',
+    'Hope for mothers. <em>Futures</em> for families.',
+    'Every widow deserves to <em>rise</em>.'
+  ];
+  var current = 0;
+  var mainTimer;
+  var DURATION = 8000;
+
+  function transitionTo(idx) {
+    slides[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    heroEl.style.animation    = 'heroSlideOut 0.85s ease forwards';
+    eyebrowEl.style.animation = 'heroSlideOut 0.85s ease forwards';
+    ctaEl.style.animation     = 'heroSlideOut 0.85s ease forwards';
+    setTimeout(function () {
+      heroEl.innerHTML = heroTexts[current % heroTexts.length];
+      heroEl.style.animation    = 'none';
+      eyebrowEl.style.animation = 'none';
+      ctaEl.style.animation     = 'none';
+      void heroEl.offsetWidth;
+      heroEl.style.animation    = 'heroSlideIn 1.1s var(--ease-out) forwards';
+      eyebrowEl.style.animation = 'heroSlideIn 1.1s var(--ease-out) forwards';
+      ctaEl.style.animation     = 'heroSlideIn 1.1s var(--ease-out) forwards';
+    }, 850);
+  }
+
+  function startAuto() {
+    mainTimer = setInterval(function () {
+      transitionTo((current + 1) % slides.length);
+    }, DURATION);
+  }
+
+  startAuto();
+
+  /* â”€â”€ Video play â”€â”€ */
+  var vidCover = document.getElementById('video-cover');
+  if (vidCover) {
+    vidCover.addEventListener('click', function () {
+      var wrap = document.getElementById('video-wrap');
+      var iframe = document.createElement('iframe');
+      iframe.className = 'video-frame';
+      iframe.src = 'https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&rel=0';
+      iframe.title = 'Ibhade Charity Foundation — Our Work in Action';
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      wrap.innerHTML = '';
+      wrap.appendChild(iframe);
+    });
+  }
+
+  /* â”€â”€ About accordion â”€â”€ */
+  document.querySelectorAll('.acc-trigger').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.acc-item');
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.acc-item').forEach(function (i) { i.classList.remove('open'); });
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  /* â”€â”€ Scroll reveal â”€â”€ */
+  var revealObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { revealObs.observe(el); });
+
+  /* â”€â”€ Transparency bar animation â”€â”€ */
+  var barsAnimated = false;
+  var barsObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting && !barsAnimated) {
+        barsAnimated = true;
+        document.querySelectorAll('.trans-bar-fill').forEach(function (fill) {
+          setTimeout(function () { fill.style.width = fill.dataset.width; }, 200);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  var barsEl = document.getElementById('trans-bars');
+  if (barsEl) barsObs.observe(barsEl);
+
+  /* â”€â”€ News feed (Supabase) â”€â”€ */
+  (function () {
+    var SB_URL = 'https://fzxnlrgyjfidtjwxrpif.supabase.co';
+    var SB_KEY = 'sb_publishable_BWOOeLcEjxczWBCCGxMnYw_vIgWADqp';
+    var grid = document.getElementById('news-grid');
+    if (!grid || typeof supabase === 'undefined') {
+      grid.innerHTML = '<p class="news-empty">No publications yet — check back soon.</p>';
+      return;
+    }
+    var sb = supabase.createClient(SB_URL, SB_KEY);
+    sb.from('posts').select('title,slug,excerpt,image_url,category,published_at,created_at')
+      .eq('published', true).order('published_at', { ascending: false }).limit(3)
+      .then(function (res) {
+        if (res.error || !res.data || !res.data.length) {
+          grid.innerHTML = '<p class="news-empty">No publications yet — check back soon.</p>';
+          return;
+        }
+        grid.innerHTML = res.data.map(function (p, i) {
+          var d = new Date(p.published_at || p.created_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' });
+          var img = p.image_url ? 'background-image:url(\'' + esc(p.image_url) + '\')' : '';
+          return '<a class="news-card reveal delay-' + (i + 1) + '" href="ngo-post.html?id=' + esc(p.slug) + '">' +
+            '<div class="news-img"><div class="news-img-inner"' + (img ? ' style="' + img + '"' : '') + '></div></div>' +
+            '<div class="news-body">' +
+              '<div class="news-meta"><span class="news-cat">' + esc(p.category || 'Update') + '</span><span class="news-date">' + d + '</span></div>' +
+              '<h3 class="news-title">' + esc(p.title) + '</h3>' +
+              (p.excerpt ? '<p class="news-excerpt">' + esc(p.excerpt) + '</p>' : '') +
+              '<span class="news-read">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>' +
+            '</div></a>';
+        }).join('');
+        grid.querySelectorAll('.reveal').forEach(function (el) { revealObs.observe(el); });
+      })
+      .catch(function () {
+        grid.innerHTML = '<p class="news-empty">No publications yet — check back soon.</p>';
+      });
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  })();
+
+
+  /* Gallery */
+  (function() {
+    var PG_IMGS = [
+      'images/BEE00785.webp','images/BEE00494.webp','images/BEE00787.webp',
+      'images/BEE00794.webp','images/BEE00643.webp','images/BEE00900.webp',
+      'images/BEE00492.webp','images/BEE00320.webp','images/BEE00934.webp',
+      'images/BEE00305.webp','images/BEE00360.webp','images/BEE00497.webp',
+      'images/BEE00563.webp','images/BEE00576.webp','images/BEE00640.webp',
+      'images/BEE00645.webp','images/BEE00650.webp','images/BEE00789.webp',
+      'images/BEE00907.webp','images/BEE00948.webp','images/BEE00968.webp'
+    ];
+    var pgCurrent = 0;
+    window.pgOpen = function(idx) {
+      pgCurrent = idx;
+      var lb = document.getElementById('pg-lightbox');
+      var img = document.getElementById('pg-lb-img');
+      img.src = PG_IMGS[idx];
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      pgCounter();
+    };
+    window.pgClose = function() {
+      document.getElementById('pg-lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    window.pgLbBg = function(e) { if (e.target === document.getElementById('pg-lightbox')) pgClose(); };
+    window.pgPrev = function(e) { e.stopPropagation(); pgCurrent = (pgCurrent - 1 + PG_IMGS.length) % PG_IMGS.length; document.getElementById('pg-lb-img').src = PG_IMGS[pgCurrent]; pgCounter(); };
+    window.pgNext = function(e) { e.stopPropagation(); pgCurrent = (pgCurrent + 1) % PG_IMGS.length; document.getElementById('pg-lb-img').src = PG_IMGS[pgCurrent]; pgCounter(); };
+    function pgCounter() { document.getElementById('pg-lb-counter').textContent = (pgCurrent + 1) + ' / ' + PG_IMGS.length; }
+    window.pgToggle = function() {
+      var el = document.getElementById('pg-expanded');
+      var btn = document.getElementById('pg-see-more-btn');
+      var txt = document.getElementById('pg-btn-text');
+      var isOpen = el.classList.contains('open');
+      if (!isOpen) { el.style.maxHeight = el.scrollHeight + 'px'; el.classList.add('open'); txt.textContent = 'Show Less'; btn.classList.add('open'); }
+      else { el.style.maxHeight = '0'; el.classList.remove('open'); txt.textContent = 'See More Photos'; btn.classList.remove('open'); }
+    };
+    document.addEventListener('keydown', function(e) {
+      var lb = document.getElementById('pg-lightbox');
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') pgClose();
+      if (e.key === 'ArrowLeft') window.pgPrev({stopPropagation:function(){}});
+      if (e.key === 'ArrowRight') window.pgNext({stopPropagation:function(){}});
+    });
+  })();
+})();
+</script>
+</body>
+</html>

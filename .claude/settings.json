@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"c:\\\\Users\\\\ADMIN\\\\Downloads\\\\Website\\\\Ibahde\\\\images\" | Select-Object Name, @{N='Size_KB';E={[math]::Round\\($_.Length/1KB,1\\)}} | Sort-Object Name | Format-Table -AutoSize)",
+      "Bash(python3 -c ' *)",
+      "PowerShell(\\(Get-Item \"c:\\\\Users\\\\ADMIN\\\\Downloads\\\\Website\\\\Ibahde\\\\admin.html\"\\).Length)"
+    ]
+  }
+}

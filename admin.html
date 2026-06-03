@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Ibhade Charity Foundation</title>
+  <link rel="icon" type="image/png" href="IBADE LOGO.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0d1e45;--red:#ec3237;--green:#16a34a;--white:#ffffff;--ivory:#f4f5f7;--grey:#e4e6ea;--mid:#6b7280;--dark:#1a1a2e;--font:'Montserrat',sans-serif}
+    body{font-family:var(--font);background:var(--ivory);color:var(--dark);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none} button{font-family:var(--font);cursor:pointer}
+
+    #login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
+    #login::before{content:"";position:absolute;inset:0;background:url('images/BEE00492.webp') center/cover no-repeat;z-index:0}
+    #login::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,18,50,0.82),rgba(13,30,69,0.88));z-index:1}
+    .login-card{position:relative;z-index:2;background:var(--white);padding:48px 40px;width:100%;max-width:420px;box-shadow:0 32px 80px rgba(0,0,0,0.35)}
+    .login-logo{height:52px;object-fit:contain;margin-bottom:28px;display:block}
+    .login-card h1{font-size:26px;font-weight:800;color:var(--navy);margin-bottom:4px}
+    .login-card .sub{font-size:13px;color:var(--mid);margin-bottom:32px}
+    .login-err{font-size:13px;color:var(--red);margin-top:12px;display:none}
+
+    .form-group{margin-bottom:18px}
+    .form-group label{display:block;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+    .form-group input,.form-group textarea,.form-group select{width:100%;padding:11px 14px;border:1.5px solid var(--grey);background:var(--white);font-family:var(--font);font-size:14px;color:var(--dark);outline:none;transition:border-color 0.2s}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--navy)}
+    .form-group textarea{resize:vertical;line-height:1.65}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 22px;font-family:var(--font);font-size:13px;font-weight:700;border:none;cursor:pointer;transition:opacity 0.18s,transform 0.14s}
+    .btn:hover{opacity:0.86} .btn:active{transform:scale(0.97)}
+    .btn-navy{background:var(--navy);color:var(--white)} .btn-red{background:var(--red);color:var(--white)}
+    .btn-green{background:var(--green);color:var(--white)}
+    .btn-ghost{background:transparent;color:var(--mid);border:1.5px solid var(--grey)}
+    .btn-ghost:hover{border-color:var(--navy);color:var(--navy);opacity:1}
+    .btn-danger{background:#fef2f2;color:var(--red);border:1.5px solid #fecaca}
+    .btn-danger:hover{background:#fee2e2;opacity:1}
+    .btn-sm{padding:7px 14px;font-size:12px} .btn-full{width:100%} .btn:disabled{opacity:0.55;pointer-events:none}
+
+    #app{display:none;height:100vh;overflow:hidden}
+    .app-wrap{display:flex;height:100vh}
+    .sidebar{width:248px;min-width:248px;background:var(--navy);color:var(--white);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+    .sb-logo{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.09);display:flex;align-items:center;gap:10px}
+    .sb-logo img{height:34px;object-fit:contain}
+    .sb-logo-text{font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);line-height:1.3}
+    .sb-logo-text span{display:block;font-size:10px;font-weight:400;color:rgba(255,255,255,0.4);letter-spacing:0.06em}
+    .sb-label{font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);padding:20px 20px 8px}
+    .sb-nav a{display:flex;align-items:center;gap:10px;padding:11px 20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.65);cursor:pointer;transition:background 0.15s,color 0.15s;border-left:3px solid transparent}
+    .sb-nav a:hover{background:rgba(255,255,255,0.07);color:var(--white)}
+    .sb-nav a.active{background:rgba(255,255,255,0.1);color:var(--white);border-left-color:var(--red)}
+    .sb-nav a svg{flex-shrink:0;opacity:0.65} .sb-nav a:hover svg,.sb-nav a.active svg{opacity:1}
+    .sb-bottom{margin-top:auto;padding:16px 20px;border-top:1px solid rgba(255,255,255,0.09);display:flex;justify-content:space-between;align-items:center}
+    .sb-bottom span{font-size:11px;color:rgba(255,255,255,0.4)}
+    .sb-bottom button{font-size:11px;color:rgba(255,255,255,0.45);background:none;border:none;cursor:pointer;font-family:var(--font)}
+    .sb-bottom button:hover{color:var(--white)}
+    .app-main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+    .topbar{background:var(--white);border-bottom:1px solid var(--grey);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+    .topbar-title{font-size:18px;font-weight:800;color:var(--navy)}
+    .topbar-actions{display:flex;align-items:center;gap:10px}
+    .content{flex:1;overflow-y:auto;padding:24px 28px}
+
+    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+    .stat-card{background:var(--white);padding:18px 20px;border-left:4px solid transparent}
+    .stat-card.navy{border-left-color:var(--navy)} .stat-card.green{border-left-color:var(--green)} .stat-card.red{border-left-color:var(--red)}
+    .stat-label{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+    .stat-val{font-size:32px;font-weight:800;color:var(--navy);line-height:1}
+    .stat-card.green .stat-val{color:var(--green)} .stat-card.red .stat-val{color:var(--red)}
+
+    .table-card{background:var(--white);overflow:hidden}
+    .table-head{padding:16px 20px;border-bottom:1px solid var(--grey);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .table-head h2{font-size:15px;font-weight:700;color:var(--navy)}
+    .search-wrap{position:relative}
+    .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--mid);pointer-events:none}
+    .search-wrap input{padding:8px 12px 8px 32px;border:1.5px solid var(--grey);font-family:var(--font);font-size:13px;outline:none;width:220px}
+    .search-wrap input:focus{border-color:var(--navy)}
+    table{width:100%;border-collapse:collapse}
+    thead th{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);padding:10px 14px;text-align:left;background:var(--ivory);border-bottom:1px solid var(--grey)}
+    td{padding:12px 14px;font-size:13px;color:var(--dark);border-bottom:1px solid #f0f1f3;vertical-align:middle}
+    tr:last-child td{border-bottom:none} tr:hover td{background:#fafbfc}
+    .td-title{font-weight:700;color:var(--navy);max-width:300px}
+    .td-title span,.td-excerpt span{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+    .td-excerpt{color:var(--mid);max-width:260px}
+    .badge{display:inline-block;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+    .badge-pub{background:#dcfce7;color:#15803d} .badge-draft{background:#f3f4f6;color:#6b7280} .badge-cat{background:rgba(13,30,69,0.07);color:var(--navy)}
+    .actions{display:flex;gap:6px;flex-wrap:wrap}
+    .empty-cell{text-align:center;padding:48px 20px;color:var(--mid);font-style:italic;font-size:14px}
+    .loading-cell{text-align:center;padding:40px}
+
+    #editor-view{display:none}
+    .editor-grid{display:grid;grid-template-columns:1fr 270px;gap:20px;align-items:start}
+    .editor-main{background:var(--white);padding:32px 36px;display:flex;flex-direction:column;gap:0}
+    .editor-divider{height:1px;background:var(--grey);margin:22px 0}
+    #f-title{width:100%;font-size:22px;font-weight:700;font-family:var(--font);border:none;outline:none;padding:0;color:var(--dark);background:transparent;line-height:1.3}
+    #f-title::placeholder{color:#c8ccd4;font-weight:400}
+    .editor-meta{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .field-label{display:block;font-size:11px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+    .label-hint{font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--mid)}
+    .editor-main input[type="text"],.editor-main select,.editor-main textarea{width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--grey);background:var(--white);font-family:var(--font);font-size:13px;color:var(--dark);outline:none;transition:border-color 0.2s}
+    .editor-main input:focus,.editor-main select:focus,.editor-main textarea:focus{border-color:var(--navy)}
+    .toolbar{display:flex;gap:2px;flex-wrap:wrap;padding:6px 8px;background:var(--ivory);border:1.5px solid var(--grey);border-bottom:none;border-radius:4px 4px 0 0}
+    .toolbar button{padding:4px 9px;font-size:12px;font-weight:700;background:transparent;border:none;color:var(--mid);border-radius:3px;transition:background 0.15s,color 0.15s}
+    .toolbar button:hover{background:var(--white);color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+    .toolbar-sep{width:1px;background:var(--grey);margin:2px 6px;align-self:stretch}
+    #f-body{width:100%;box-sizing:border-box;min-height:340px;font-size:14px;line-height:1.8;font-family:var(--font);resize:vertical;padding:12px;border:1.5px solid var(--grey);outline:none;transition:border-color 0.2s}
+    #f-body:focus{border-color:var(--navy)}
+    #f-excerpt{width:100%;box-sizing:border-box}
+    .char-count{font-size:11px;color:var(--mid);text-align:right;margin-top:5px} .char-warn{color:var(--red)}
+    .slug-hint{font-size:11px;color:var(--mid);margin-top:4px;word-break:break-all}
+
+    .editor-sidebar{display:flex;flex-direction:column;gap:16px}
+    .sidebar-card{background:var(--white);padding:20px;display:flex;flex-direction:column;gap:14px}
+    .sidebar-section-label{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--mid);padding-bottom:10px;border-bottom:1px solid var(--grey)}
+    .sidebar-card input[type="url"],.sidebar-card input[type="datetime-local"]{width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--grey);background:var(--white);font-family:var(--font);font-size:13px;color:var(--dark);outline:none;transition:border-color 0.2s}
+    .sidebar-card input:focus{border-color:var(--navy)}
+    .status-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .status-name{font-size:14px;font-weight:700;color:var(--dark)} .status-desc{font-size:11px;color:var(--mid);margin-top:2px}
+    .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+    .toggle input{opacity:0;width:0;height:0}
+    .slider{position:absolute;inset:0;background:var(--grey);transition:0.25s;border-radius:24px;cursor:pointer}
+    .slider::before{content:"";position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:var(--white);transition:0.25s;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+    .toggle input:checked + .slider{background:var(--green)}
+    .toggle input:checked + .slider::before{transform:translateX(20px)}
+    .img-preview{width:100%;aspect-ratio:16/9;background:var(--grey) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--mid);font-style:italic;margin-top:8px}
+    .editor-actions{display:flex;flex-direction:column;gap:8px}
+
+    .upload-area{border:2px dashed var(--grey);padding:18px 14px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:border-color 0.2s,background 0.2s;text-align:center}
+    .upload-area:hover{border-color:var(--navy);background:#f5f7ff}
+    .upload-area-text{font-size:13px;font-weight:700;color:var(--navy)} .upload-area-hint{font-size:11px;color:var(--mid)}
+    .upload-status{font-size:12px;color:var(--mid);display:flex;align-items:center;gap:7px;margin-top:2px}
+    .or-divider{display:flex;align-items:center;gap:10px;margin:4px 0}
+    .or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--grey)}
+    .or-divider span{font-size:10px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--mid);white-space:nowrap}
+
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.52);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity 0.2s}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal-box{background:var(--white);padding:32px;max-width:400px;width:90%;box-shadow:0 24px 64px rgba(0,0,0,0.28)}
+    .modal-box h3{font-size:20px;font-weight:800;color:var(--navy);margin-bottom:10px}
+    .modal-box p{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:24px}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end}
+
+    #toast{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast-item{padding:13px 18px;font-size:13px;font-weight:700;color:var(--white);min-width:200px;max-width:340px;display:flex;align-items:center;gap:10px;animation:toastIn 0.28s ease}
+    .toast-success{background:var(--green)} .toast-error{background:var(--red)} .toast-info{background:var(--navy)}
+    @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,0.3);border-top-color:var(--white);border-radius:50%;animation:spin 0.7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spinner-dark{border-color:rgba(13,30,69,0.15);border-top-color:var(--navy)}
+
+    @media(max-width:900px){.sidebar{width:200px;min-width:200px}.editor-grid{grid-template-columns:1fr}}
+    @media(max-width:640px){.stats-row{grid-template-columns:1fr}.sidebar{display:none}.form-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<div id="login">
+  <div class="login-card">
+    <img src="IBADE LOGO.png" class="login-logo" alt="Ibhade">
+    <h1>Admin Panel</h1>
+    <p class="sub">Ibhade Charity Foundation — Content Management</p>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="email-input" placeholder="admin@ibhadecharityfoundation.org" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="pw-input" placeholder="Enter admin password" autocomplete="current-password">
+    </div>
+    <button class="btn btn-navy btn-full" onclick="checkLogin()">Sign In</button>
+    <div class="login-err" id="login-err"></div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="app-wrap">
+    <aside class="sidebar">
+      <div class="sb-logo">
+        <img src="IBADE LOGO.png" alt="Ibhade">
+        <div class="sb-logo-text">Ibhade<br><span>Admin Panel</span></div>
+      </div>
+      <div class="sb-label">Content</div>
+      <nav class="sb-nav">
+        <a id="nav-posts" class="active" onclick="showView('posts')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h10"/></svg>All Posts
+        </a>
+        <a id="nav-new" onclick="openEditor(null)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New Post
+        </a>
+      </nav>
+      <div class="sb-label">Site</div>
+      <nav class="sb-nav">
+        <a href="index.html" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>View Website
+        </a>
+        <a href="blog.html" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>View Blog
+        </a>
+      </nav>
+      <div class="sb-bottom">
+        <span id="sb-user">Admin</span>
+        <button onclick="logout()">Sign Out</button>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar-title" id="topbar-title">All Posts</div>
+        <div class="topbar-actions" id="topbar-actions">
+          <button class="btn btn-navy btn-sm" onclick="openEditor(null)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>New Post
+          </button>
+        </div>
+      </header>
+      <div class="content">
+
+        <section id="posts-view">
+          <div class="stats-row">
+            <div class="stat-card navy"><div class="stat-label">Total Posts</div><div class="stat-val" id="s-total">—</div></div>
+            <div class="stat-card green"><div class="stat-label">Published</div><div class="stat-val" id="s-pub">—</div></div>
+            <div class="stat-card red"><div class="stat-label">Drafts</div><div class="stat-val" id="s-draft">—</div></div>
+          </div>
+          <div class="table-card">
+            <div class="table-head">
+              <h2>Posts</h2>
+              <div class="search-wrap">
+                <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" id="search-input" placeholder="Search posts…" oninput="filterPosts()">
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table>
+                <thead><tr><th>Title</th><th>Excerpt</th><th>Category</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                <tbody id="posts-tbody"><tr><td colspan="6" class="loading-cell"><span class="spinner spinner-dark"></span></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="editor-view">
+          <div class="editor-grid">
+            <div class="editor-main">
+              <input type="text" id="f-title" placeholder="Post title…" oninput="syncSlug()">
+              <div class="editor-divider"></div>
+              <div class="editor-meta">
+                <div>
+                  <label class="field-label">Category</label>
+                  <select id="f-category">
+                    <option value="Update">Update</option><option value="Programme">Programme</option>
+                    <option value="Impact">Impact</option><option value="News">News</option>
+                    <option value="Event">Event</option><option value="Story">Story</option>
+                    <option value="Appeal">Appeal</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">Slug <span class="label-hint">(URL path)</span></label>
+                  <input type="text" id="f-slug" placeholder="auto-generated" oninput="slugManual=true">
+                  <div class="slug-hint" id="slug-hint"></div>
+                </div>
+              </div>
+              <div class="editor-divider"></div>
+              <div>
+                <label class="field-label">Summary <span class="label-hint">Shown in blog card preview — max 160 chars</span></label>
+                <textarea id="f-excerpt" rows="3" placeholder="A short summary of this post…" oninput="charCount(this,160,'exc-count')"></textarea>
+                <div class="char-count" id="exc-count">0 / 160</div>
+              </div>
+              <div class="editor-divider"></div>
+              <div>
+                <label class="field-label">Content <span class="label-hint">HTML accepted</span></label>
+                <div class="toolbar">
+                  <button type="button" onclick="wrap('f-body','<strong>','</strong>')"><b>B</b></button>
+                  <button type="button" onclick="wrap('f-body','<em>','</em>')"><i>I</i></button>
+                  <button type="button" onclick="wrap('f-body','<u>','</u>')"><u>U</u></button>
+                  <div class="toolbar-sep"></div>
+                  <button type="button" onclick="insert('f-body','<h2>Heading</h2>\n')">H2</button>
+                  <button type="button" onclick="insert('f-body','<h3>Sub-heading</h3>\n')">H3</button>
+                  <div class="toolbar-sep"></div>
+                  <button type="button" onclick="insert('f-body','<p></p>\n')">P</button>
+                  <button type="button" onclick="insert('f-body','<ul>\n  <li></li>\n</ul>\n')">List</button>
+                  <button type="button" onclick="insert('f-body','<blockquote></blockquote>\n')">Quote</button>
+                  <div class="toolbar-sep"></div>
+                  <button type="button" onclick="insert('f-body','<img src=&quot;&quot; alt=&quot;&quot; style=&quot;width:100%;margin:16px 0&quot;>\n')">Img</button>
+                  <button type="button" onclick="insert('f-body','<a href=&quot;&quot;></a>')">Link</button>
+                  <div class="toolbar-sep"></div>
+                  <button type="button" onclick="insert('f-body','<hr style=&quot;margin:24px 0&quot;>\n')">HR</button>
+                </div>
+                <textarea id="f-body" placeholder="Write your post content here…"></textarea>
+              </div>
+            </div>
+
+            <div class="editor-sidebar">
+              <div class="sidebar-card">
+                <div class="sidebar-section-label">Publish</div>
+                <div class="status-row">
+                  <div><div class="status-name">Published</div><div class="status-desc">Visible on website</div></div>
+                  <label class="toggle"><input type="checkbox" id="f-published"><span class="slider"></span></label>
+                </div>
+                <div>
+                  <label class="field-label">Date &amp; Time</label>
+                  <input type="datetime-local" id="f-date">
+                </div>
+              </div>
+
+              <div class="sidebar-card">
+                <div class="sidebar-section-label">Cover Image</div>
+                <div class="upload-area" onclick="document.getElementById('f-img-file').click()">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span class="upload-area-text">Upload from device</span>
+                  <span class="upload-area-hint">JPG, PNG, WebP</span>
+                </div>
+                <input type="file" id="f-img-file" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none" onchange="uploadImage(this)">
+                <div class="upload-status" id="upload-status" style="display:none"></div>
+                <div class="or-divider"><span>or paste a URL</span></div>
+                <div>
+                  <label class="field-label">Image URL</label>
+                  <input type="url" id="f-image" placeholder="https://…" oninput="previewImg()">
+                </div>
+                <div class="img-preview" id="img-preview">No image selected</div>
+              </div>
+
+              <div class="editor-actions">
+                <button class="btn btn-red btn-full" id="save-btn" onclick="savePost()">Save Post</button>
+                <button class="btn btn-ghost btn-full" onclick="showView('posts')">Cancel</button>
+                <div id="del-wrap" style="display:none;margin-top:4px">
+                  <button class="btn btn-danger btn-full btn-sm" onclick="confirmDelete(currentId,currentTitle)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Delete This Post
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <h3>Delete Post?</h3>
+    <p id="modal-msg">This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-red btn-sm" id="modal-confirm-btn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Delete
+      </button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+var SB_URL='https://fzxnlrgyjfidtjwxrpif.supabase.co';
+var SB_KEY='sb_publishable_BWOOeLcEjxczWBCCGxMnYw_vIgWADqp';
+var sb=supabase.createClient(SB_URL,SB_KEY);
+var allPosts=[],currentId=null,currentTitle='',deleteTarget=null,slugManual=false;
+
+async function checkLogin(){
+  var email=document.getElementById('email-input').value.trim();
+  var pw=document.getElementById('pw-input').value;
+  var err=document.getElementById('login-err');
+  var btn=document.querySelector('#login .btn');
+  if(!email||!pw){err.textContent='Please enter your email and password.';err.style.display='block';return;}
+  err.style.display='none';btn.disabled=true;btn.textContent='Signing in…';
+  var result=await sb.auth.signInWithPassword({email:email,password:pw});
+  btn.disabled=false;btn.textContent='Sign In';
+  if(result.error){err.textContent='Incorrect email or password. Please try again.';err.style.display='block';return;}
+  bootApp(result.data.user);
+}
+document.getElementById('email-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('pw-input').focus();});
+document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkLogin();});
+async function logout(){await sb.auth.signOut();location.reload();}
+function bootApp(user){
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='block';
+  if(user&&user.email){var el=document.getElementById('sb-user');if(el)el.textContent=user.email;}
+  loadPosts();
+}
+sb.auth.getSession().then(function(res){if(res.data&&res.data.session)bootApp(res.data.session.user);});
+
+async function loadPosts(){
+  setTableLoading();
+  var res=await sb.from('posts').select('id,title,slug,excerpt,image_url,category,published,published_at,created_at,body').order('created_at',{ascending:false});
+  if(res.error){toast('Load failed: '+res.error.message,'error');return;}
+  allPosts=res.data||[];renderStats();renderTable(allPosts);
+}
+function renderStats(){
+  var pub=allPosts.filter(function(p){return p.published;}).length;
+  document.getElementById('s-total').textContent=allPosts.length;
+  document.getElementById('s-pub').textContent=pub;
+  document.getElementById('s-draft').textContent=allPosts.length-pub;
+}
+function renderTable(posts){
+  var tb=document.getElementById('posts-tbody');
+  if(!posts.length){tb.innerHTML='<tr><td colspan="6" class="empty-cell">No posts yet — create your first one above.</td></tr>';return;}
+  tb.innerHTML=posts.map(function(p){
+    var date=p.published_at||p.created_at;
+    var d=date?new Date(date).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}):'&mdash;';
+    var status=p.published?'<span class="badge badge-pub">Published</span>':'<span class="badge badge-draft">Draft</span>';
+    var tl=p.published?'Unpublish':'Publish';
+    return '<tr>'+
+      '<td class="td-title"><span title="'+esc(p.title)+'">'+esc(p.title)+'</span></td>'+
+      '<td class="td-excerpt"><span>'+esc(p.excerpt||'')+'</span></td>'+
+      '<td><span class="badge badge-cat">'+esc(p.category||'Update')+'</span></td>'+
+      '<td>'+status+'</td><td>'+d+'</td>'+
+      '<td><div class="actions">'+
+        '<button class="btn btn-ghost btn-sm" onclick="openEditor(\''+p.id+'\')">Edit</button>'+
+        '<button class="btn btn-ghost btn-sm" onclick="togglePub(\''+p.id+'\','+p.published+')">'+tl+'</button>'+
+        '<button class="btn btn-danger btn-sm" onclick="confirmDelete(\''+p.id+'\',\''+esc(p.title).replace(/'/g,"\\'")+'\')">Delete</button>'+
+      '</div></td></tr>';
+  }).join('');
+}
+function setTableLoading(){document.getElementById('posts-tbody').innerHTML='<tr><td colspan="6" class="loading-cell"><span class="spinner spinner-dark"></span></td></tr>';}
+function filterPosts(){
+  var q=document.getElementById('search-input').value.toLowerCase();
+  renderTable(q?allPosts.filter(function(p){return(p.title||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q)||(p.excerpt||'').toLowerCase().includes(q);}):allPosts);
+}
+function showView(name){
+  document.getElementById('posts-view').style.display=name==='posts'?'block':'none';
+  document.getElementById('editor-view').style.display=name==='editor'?'block':'none';
+  document.getElementById('topbar-title').textContent=name==='posts'?'All Posts':(currentId?'Edit Post':'New Post');
+  document.getElementById('nav-posts').classList.toggle('active',name==='posts');
+  document.getElementById('nav-new').classList.toggle('active',name==='editor');
+  document.getElementById('topbar-actions').style.display=name==='posts'?'flex':'none';
+  if(name==='posts'){currentId=null;loadPosts();}
+}
+function openEditor(id){
+  currentId=id;slugManual=false;
+  ['f-title','f-slug','f-excerpt','f-body','f-image'].forEach(function(k){document.getElementById(k).value='';});
+  document.getElementById('f-category').value='Update';
+  document.getElementById('f-published').checked=false;
+  document.getElementById('f-date').value=dtLocal(new Date());
+  document.getElementById('img-preview').style.backgroundImage='';
+  document.getElementById('img-preview').textContent='No image selected';
+  document.getElementById('del-wrap').style.display='none';
+  document.getElementById('slug-hint').textContent='';
+  document.getElementById('exc-count').textContent='0 / 160';
+  if(id){
+    var p=allPosts.find(function(x){return x.id===id;});
+    if(p){
+      currentTitle=p.title;
+      document.getElementById('f-title').value=p.title||'';
+      document.getElementById('f-slug').value=p.slug||'';
+      document.getElementById('f-excerpt').value=p.excerpt||'';
+      document.getElementById('f-body').value=p.body||'';
+      document.getElementById('f-image').value=p.image_url||'';
+      document.getElementById('f-category').value=p.category||'Update';
+      document.getElementById('f-published').checked=!!p.published;
+      document.getElementById('f-date').value=p.published_at?dtLocal(new Date(p.published_at)):dtLocal(new Date());
+      document.getElementById('del-wrap').style.display='block';
+      document.getElementById('slug-hint').textContent='post.html?id='+(p.slug||'');
+      slugManual=true;charCount(document.getElementById('f-excerpt'),160,'exc-count');previewImg();
+    }
+  }
+  showView('editor');window.scrollTo(0,0);
+}
+async function savePost(){
+  var title=document.getElementById('f-title').value.trim();
+  if(!title){toast('Title is required.','error');document.getElementById('f-title').focus();return;}
+  var slug=document.getElementById('f-slug').value.trim()||genSlug(title);
+  var pub=document.getElementById('f-published').checked;
+  var dateV=document.getElementById('f-date').value;
+  var payload={title:title,slug:slug,excerpt:document.getElementById('f-excerpt').value.trim()||null,body:document.getElementById('f-body').value.trim()||null,image_url:document.getElementById('f-image').value.trim()||null,category:document.getElementById('f-category').value,published:pub,published_at:dateV?new Date(dateV).toISOString():new Date().toISOString()};
+  var btn=document.getElementById('save-btn');
+  btn.innerHTML='<span class="spinner"></span> Saving…';btn.disabled=true;
+  var res=currentId?await sb.from('posts').update(payload).eq('id',currentId):await sb.from('posts').insert(payload);
+  btn.innerHTML='Save Post';btn.disabled=false;
+  if(res.error){toast('Save failed: '+res.error.message,'error');}else{toast(currentId?'Post updated.':'Post created.','success');showView('posts');}
+}
+async function togglePub(id,current){
+  var ns=!current;
+  var res=await sb.from('posts').update({published:ns,published_at:ns?new Date().toISOString():null}).eq('id',id);
+  if(res.error){toast('Update failed: '+res.error.message,'error');return;}
+  toast(ns?'Post published.':'Post moved to drafts.','success');loadPosts();
+}
+function confirmDelete(id,title){
+  deleteTarget=id;currentTitle=title;
+  document.getElementById('modal-msg').textContent='Delete "'+title+'"? This cannot be undone.';
+  document.getElementById('modal-confirm-btn').onclick=doDelete;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+async function doDelete(){closeModal();var res=await sb.from('posts').delete().eq('id',deleteTarget);if(res.error){toast('Delete failed: '+res.error.message,'error');return;}toast('Post deleted.','success');showView('posts');}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function genSlug(s){return s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function syncSlug(){if(!slugManual){var s=genSlug(document.getElementById('f-title').value);document.getElementById('f-slug').value=s;document.getElementById('slug-hint').textContent=s?'post.html?id='+s:'';}}
+function dtLocal(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
+function previewImg(){var url=document.getElementById('f-image').value.trim(),el=document.getElementById('img-preview');if(url){el.style.backgroundImage='url(\''+url+'\')';el.textContent='';}else{el.style.backgroundImage='';el.textContent='No image selected';}}
+async function uploadImage(input){
+  var file=input.files[0];if(!file)return;
+  var status=document.getElementById('upload-status');
+
+  function showErr(msg){
+    status.style.display='flex';
+    status.style.color='var(--red)';
+    status.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>&nbsp;'+msg;
+    input.value='';
+  }
+
+  /* 15 MB limit */
+  if(file.size > 15*1024*1024){ showErr('File too large — max 15 MB.'); return; }
+
+  status.style.display='flex';
+  status.style.color='var(--mid)';
+  status.innerHTML='<span class="spinner spinner-dark"></span>&nbsp;Uploading…';
+
+  var ext=file.name.split('.').pop().toLowerCase();
+  var name=Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+ext;
+
+  /* 20-second timeout so it never hangs forever */
+  var timeout=new Promise(function(_,rej){setTimeout(function(){rej(new Error('Upload timed out — check your Supabase Storage bucket exists and is set to Public.'));},20000);});
+
+  var res;
+  try {
+    res=await Promise.race([
+      sb.storage.from('post-images').upload(name,file,{upsert:true,contentType:file.type}),
+      timeout
+    ]);
+  } catch(e){ showErr(e.message); return; }
+
+  if(res.error){
+    var msg=res.error.message||'Upload failed.';
+    if(msg.toLowerCase().includes('bucket')||msg.toLowerCase().includes('not found')){
+      msg='Bucket not found — create a public "post-images" bucket in Supabase Storage first.';
+    }
+    showErr(msg); return;
+  }
+
+  var pub=sb.storage.from('post-images').getPublicUrl(name);
+  document.getElementById('f-image').value=pub.data.publicUrl;
+  previewImg();
+  status.style.display='none';
+  input.value='';
+  toast('Image uploaded successfully.','success');
+}
+function charCount(el,max,cntId){var n=el.value.length,cnt=document.getElementById(cntId);cnt.textContent=n+' / '+max;cnt.classList.toggle('char-warn',n>max);}
+function wrap(id,open,close){var ta=document.getElementById(id),s=ta.selectionStart,e=ta.selectionEnd;ta.value=ta.value.slice(0,s)+open+ta.value.slice(s,e)+close+ta.value.slice(e);ta.focus();ta.selectionStart=s+open.length;ta.selectionEnd=e+open.length;}
+function insert(id,text){var ta=document.getElementById(id),s=ta.selectionStart;ta.value=ta.value.slice(0,s)+text+ta.value.slice(s);ta.focus();ta.selectionStart=ta.selectionEnd=s+text.length;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(msg,type){var t=document.createElement('div');t.className='toast-item toast-'+(type||'info');t.textContent=msg;document.getElementById('toast').appendChild(t);setTimeout(function(){t.remove();},3500);}
+</script>
+</body>
+</html>

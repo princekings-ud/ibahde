@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blog &amp; Publications — Ibhade Charity Foundation</title>
+<meta name="description" content="Field reports, impact stories, and announcements from Ibhade Charity Foundation." />
+<link rel="icon" type="image/png" href="IBADE LOGO.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+:root {
+  --navy:#144681;--navy-dark:#0e3260;--red:#EC3237;--white:#FFFFFF;
+  --ivory:#F7F3EE;--charcoal:#1C1C1E;--mid-grey:#6E6E73;--light-grey:#E5E5EA;
+  --serif:'Montserrat',sans-serif;--sans:'Montserrat',sans-serif;
+  --red-grad:linear-gradient(135deg,#c9282d 0%,#EC3237 50%,#c9282d 100%);
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --shadow-md:0 8px 32px rgba(20,70,129,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--white);color:var(--charcoal);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{background:none;border:none;cursor:pointer;font-family:inherit}
+img{display:block;max-width:100%}
+.container{max-width:1240px;margin:0 auto;padding:0 20px}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;border-bottom:1px solid rgba(255,255,255,0.12);padding:0 20px;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background 0.35s,border-color 0.35s,box-shadow 0.35s}
+.nav.scrolled{background:rgba(255,255,255,0.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:rgba(0,0,0,0.08);box-shadow:0 2px 20px rgba(20,70,129,0.10)}
+.nav-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-logo{height:38px;width:auto;object-fit:contain;filter:brightness(0) invert(1);transition:filter 0.35s}
+.nav.scrolled .nav-logo{filter:none}
+.nav-links{display:none;gap:4px;align-items:center}
+.nav-links a{font-size:13px;font-weight:700;color:rgba(255,255,255,0.88);padding:6px 12px;transition:color 0.2s;position:relative}
+.nav-links a::after{content:"";position:absolute;bottom:0;left:12px;right:12px;height:2px;background:var(--white);transform:scaleX(0);transform-origin:left;transition:transform 0.25s var(--ease-out)}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a.active{color:var(--white)}
+.nav.scrolled .nav-links a{color:var(--mid-grey)}
+.nav.scrolled .nav-links a::after{background:var(--navy)}
+.nav.scrolled .nav-links a:hover,.nav.scrolled .nav-links a.active{color:var(--navy)}
+.nav-donate{display:none;font-size:12px;font-weight:700;letter-spacing:0.06em;padding:10px 22px;background:var(--red-grad);color:var(--white)!important;transition:all 0.2s;margin-left:8px}
+.nav-donate:hover{transform:translateY(-1px);box-shadow:0 8px 20px -8px rgba(236,50,55,0.5)}
+.nav-burger{display:flex;flex-direction:column;gap:5px;width:30px;padding:4px 0;cursor:pointer}
+.nav-burger span{display:block;width:100%;height:2px;background:var(--white);border-radius:1px;transition:transform 0.3s,opacity 0.3s,background 0.35s}
+.nav.scrolled .nav-burger span{background:var(--navy)}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;inset:0;z-index:99;background:var(--navy);flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:0;transition:opacity 0.35s ease}
+.mobile-menu.open{display:flex;opacity:1}
+.mobile-menu a{font-family:var(--serif);font-size:36px;font-weight:700;color:rgba(255,255,255,0.85);transition:color 0.2s}
+.mobile-menu a:hover{color:var(--white)}
+.mobile-menu .mob-donate{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:16px 40px;background:var(--red-grad);color:var(--white);margin-top:8px}
+
+/* Page hero */
+.page-hero{padding:140px 0 64px;background:var(--navy);position:relative;overflow:hidden}
+.page-hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,0.02) 0 1px,transparent 1px 28px);pointer-events:none}
+.page-hero::after{content:"";position:absolute;right:-100px;bottom:-100px;width:500px;height:500px;border-radius:50%;background:rgba(236,50,55,0.07);pointer-events:none}
+.page-hero .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:16px}
+.page-hero .eyebrow::before{content:"";display:inline-block;width:28px;height:2px;background:var(--red);flex-shrink:0}
+.page-hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(36px,7vw,64px);line-height:1.04;letter-spacing:-0.01em;color:var(--white);margin-bottom:14px;position:relative;z-index:1}
+.page-hero p{font-size:16px;color:rgba(255,255,255,0.65);max-width:500px;line-height:1.72;position:relative;z-index:1}
+
+/* Filters */
+.blog-filters{background:var(--white);border-bottom:1px solid var(--light-grey);padding:0 20px;position:sticky;top:0;z-index:50}
+.blog-filters-inner{max-width:1240px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:14px 0}
+.blog-filters-inner::-webkit-scrollbar{display:none}
+.blog-filter{font-size:12px;font-weight:700;letter-spacing:0.06em;padding:7px 16px;color:var(--mid-grey);border:1px solid transparent;transition:all 0.2s;white-space:nowrap;cursor:pointer}
+.blog-filter:hover{color:var(--navy);border-color:var(--navy)}
+.blog-filter.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+
+/* Blog grid */
+.blog{padding:56px 0 80px;background:var(--ivory)}
+.blog-grid{display:grid;grid-template-columns:1fr;gap:24px}
+.blog-card{background:var(--white);border:1px solid var(--light-grey);display:block;overflow:hidden;transition:border-color 0.3s,transform 0.35s var(--ease-out),box-shadow 0.35s}
+.blog-card:hover{border-color:var(--navy);transform:translateY(-5px);box-shadow:var(--shadow-md)}
+.blog-img{aspect-ratio:16/9;overflow:hidden}
+.blog-img-inner{width:100%;height:100%;background:var(--ivory) center/cover no-repeat;transition:transform 0.85s var(--ease-out)}
+.blog-card:hover .blog-img-inner{transform:scale(1.06)}
+.blog-body{padding:22px 24px 24px;border-left:4px solid transparent;transition:border-color 0.3s}
+.blog-card:hover .blog-body{border-left-color:var(--navy)}
+.blog-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.blog-cat{font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;background:var(--navy);color:var(--white);padding:3px 9px}
+.blog-date{font-size:11px;color:var(--mid-grey)}
+.blog-title{font-family:var(--serif);font-size:clamp(17px,2.5vw,22px);font-weight:700;color:var(--charcoal);line-height:1.22;margin-bottom:10px}
+.blog-excerpt{font-size:13px;color:var(--mid-grey);line-height:1.68;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.blog-read{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy);display:inline-flex;align-items:center;gap:6px}
+.blog-empty{color:var(--mid-grey);font-size:15px;text-align:center;padding:80px 0;grid-column:1/-1}
+.load-more-wrap{text-align:center;margin-top:40px}
+.btn-outline-navy{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:0.06em;padding:13px 28px;color:var(--navy);border:2px solid var(--navy);background:transparent;cursor:pointer;transition:all 0.25s}
+.btn-outline-navy:hover{background:var(--navy);color:var(--white)}
+
+/* CTA */
+.cta-section{padding:72px 0;background:var(--navy);text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(120deg,rgba(255,255,255,0.03) 0 1.5px,transparent 1.5px 32px);pointer-events:none}
+.cta-inner{max-width:520px;margin:0 auto;position:relative;z-index:1}
+.cta-inner h2{font-family:var(--serif);font-weight:700;font-size:clamp(24px,5vw,44px);line-height:1.06;color:var(--white);margin:8px 0 14px}
+.cta-inner p{font-size:14px;line-height:1.72;color:rgba(255,255,255,0.65);margin-bottom:24px}
+.btn-red{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;padding:14px 28px;background:var(--red-grad);color:var(--white);border:none;cursor:pointer;transition:all 0.25s}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 16px 36px -16px rgba(236,50,55,0.6)}
+
+/* Footer */
+.footer{background:#1C1C1E;padding:48px 0 24px;border-top:1px solid rgba(255,255,255,0.06)}
+.footer-bottom{display:flex;flex-direction:column;gap:6px;font-size:11px;color:rgba(255,255,255,0.28);letter-spacing:0.06em;text-align:center;padding-top:22px;border-top:1px solid rgba(255,255,255,0.06);margin-top:24px}
+.footer-simple{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.footer-simple a{font-size:13px;color:rgba(255,255,255,0.45);transition:color 0.2s}
+.footer-simple a:hover{color:rgba(255,255,255,0.88)}
+
+/* Responsive */
+@media(min-width:640px){.container{padding:0 28px}.blog-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:780px){.nav{padding:0 32px}.nav-links{display:flex}.nav-donate{display:inline-flex}.nav-burger{display:none}}
+@media(min-width:900px){.container{padding:0 40px}.blog{padding:72px 0 96px}}
+@media(min-width:1080px){.blog-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="ngo-index.html" class="nav-brand">
+    <img src="IBADE LOGO.png" class="nav-logo" alt="Ibhade Charity Foundation">
+  </a>
+  <div class="nav-links">
+    <a href="ngo-index.html#about">About Us</a>
+    <a href="ngo-index.html#impact">Our Impact</a>
+    <a href="ngo-index.html#programmes">Projects</a>
+    <a href="ngo-blog.html" class="active">Publications</a>
+    <a href="ngo-index.html#donate" class="nav-donate">Donate Now</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="ngo-index.html#about">About Us</a>
+  <a href="ngo-index.html#impact">Our Impact</a>
+  <a href="ngo-index.html#programmes">Projects</a>
+  <a href="ngo-blog.html">Publications</a>
+  <a href="ngo-index.html#donate" class="mob-donate">Donate Now</a>
+</div>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Ibhade Charity Foundation</span>
+    <h1>Publications<br>&amp; Field Reports</h1>
+    <p>Project updates, impact stories, financial disclosures, and everything happening at Ibhade — reported honestly, published openly.</p>
+  </div>
+</section>
+
+<div class="blog-filters">
+  <div class="blog-filters-inner">
+    <button class="blog-filter active" data-cat="All">All</button>
+    <button class="blog-filter" data-cat="News">News</button>
+    <button class="blog-filter" data-cat="Announcement">Announcements</button>
+    <button class="blog-filter" data-cat="Update">Project Updates</button>
+    <button class="blog-filter" data-cat="Achievement">Achievements</button>
+    <button class="blog-filter" data-cat="Report">Field Reports</button>
+  </div>
+</div>
+
+<section class="blog">
+  <div class="container">
+    <div class="blog-grid" id="blog-grid">
+      <p class="blog-empty" style="opacity:0.5">Loading publications…</p>
+    </div>
+    <div class="load-more-wrap" id="load-more-wrap" style="display:none">
+      <button class="btn-outline-navy" id="load-more-btn">
+        Load More
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <span style="display:block;font-size:11px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px;">Give Today</span>
+      <h2>Every donation has a story. Read yours.</h2>
+      <p>Support a programme and receive a field report showing exactly what your donation achieved.</p>
+      <a class="btn-red" href="ngo-index.html#donate">
+        Donate Now
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-simple">
+      <a href="ngo-index.html">Home</a>
+      <a href="ngo-index.html#about">About Us</a>
+      <a href="ngo-index.html#impact">Our Impact</a>
+      <a href="ngo-index.html#programmes">Projects</a>
+      <a href="ngo-index.html#donate">Donate</a>
+      <a href="mailto:info@ibhadecharity.org">Contact</a>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Ibhade Charity Foundation. All rights reserved.</div>
+      <div>Results you can see. People you can trust.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var SB_URL = 'https://fzxnlrgyjfidtjwxrpif.supabase.co';
+var SB_KEY = 'sb_publishable_BWOOeLcEjxczWBCCGxMnYw_vIgWADqp';
+var PAGE = 6, offset = 0, loading = false, activeCat = 'All', sb;
+
+if (typeof supabase !== 'undefined') {
+  sb = supabase.createClient(SB_URL, SB_KEY);
+  load(true);
+} else {
+  document.getElementById('blog-grid').innerHTML = '<p class="blog-empty">Could not connect — please refresh.</p>';
+}
+
+async function load(reset) {
+  if (loading) return;
+  loading = true;
+  if (reset) offset = 0;
+  var grid = document.getElementById('blog-grid');
+  if (reset) grid.innerHTML = '';
+  try {
+    var q = sb.from('posts').select('title,slug,excerpt,image_url,category,published_at,created_at').eq('published', true);
+    if (activeCat !== 'All') q = q.eq('category', activeCat);
+    var res = await q.order('published_at', { ascending: false }).range(offset, offset + PAGE - 1);
+    var posts = res.data || [];
+    if (!posts.length && reset) { grid.innerHTML = '<p class="blog-empty">No publications yet — check back soon.</p>'; }
+    posts.forEach(function (p) {
+      var el = document.createElement('div');
+      el.innerHTML = card(p);
+      grid.appendChild(el.firstElementChild);
+    });
+    offset += posts.length;
+    document.getElementById('load-more-wrap').style.display = posts.length === PAGE ? 'block' : 'none';
+  } catch(e) {
+    if (reset) document.getElementById('blog-grid').innerHTML = '<p class="blog-empty">Could not load publications.</p>';
+  }
+  loading = false;
+}
+
+function card(p) {
+  var d = new Date(p.published_at || p.created_at).toLocaleDateString('en-NG', { day:'numeric', month:'long', year:'numeric' });
+  var img = p.image_url ? ' style="background-image:url(\'' + esc(p.image_url) + '\')"' : '';
+  return '<a class="blog-card" href="ngo-post.html?id=' + esc(p.slug) + '">' +
+    '<div class="blog-img"><div class="blog-img-inner"' + img + '></div></div>' +
+    '<div class="blog-body">' +
+      '<div class="blog-meta"><span class="blog-cat">' + esc(p.category || 'Update') + '</span><span class="blog-date">' + d + '</span></div>' +
+      '<h2 class="blog-title">' + esc(p.title) + '</h2>' +
+      (p.excerpt ? '<p class="blog-excerpt">' + esc(p.excerpt) + '</p>' : '') +
+      '<span class="blog-read">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>' +
+    '</div></a>';
+}
+
+document.getElementById('load-more-btn').addEventListener('click', function () { load(false); });
+
+document.querySelectorAll('.blog-filter').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.blog-filter').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeCat = btn.dataset.cat;
+    load(true);
+  });
+});
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function updateNav(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);}updateNav();window.addEventListener('scroll',updateNav,{passive:true});
+document.getElementById('nav-burger').addEventListener('click', function () {
+  this.classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Post — Ibhade Charity Foundation</title>
+<link rel="icon" type="image/png" href="IBADE LOGO.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+:root {
+  --navy:#144681;--red:#EC3237;--white:#FFFFFF;--ivory:#F7F3EE;
+  --charcoal:#1C1C1E;--mid-grey:#6E6E73;--light-grey:#E5E5EA;
+  --serif:'Montserrat',sans-serif;--sans:'Montserrat',sans-serif;
+  --red-grad:linear-gradient(135deg,#c9282d 0%,#EC3237 50%,#c9282d 100%);
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --shadow-md:0 8px 32px rgba(20,70,129,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--white);color:var(--charcoal);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{background:none;border:none;cursor:pointer;font-family:inherit}
+img{display:block;max-width:100%}
+.container{max-width:1240px;margin:0 auto;padding:0 20px}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--white);border-bottom:1px solid rgba(0,0,0,0.08);padding:0 20px;height:68px;display:flex;align-items:center;justify-content:space-between;transition:box-shadow 0.3s}
+.nav.scrolled{box-shadow:0 2px 20px rgba(20,70,129,0.10)}
+.nav-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-logo{height:38px;width:auto;object-fit:contain}
+.nav-links{display:none;gap:6px;align-items:center}
+.nav-links a{font-size:13px;font-weight:500;color:var(--mid-grey);padding:6px 10px;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--navy)}
+.nav-donate{display:none;font-size:12px;font-weight:700;letter-spacing:0.06em;padding:10px 22px;background:var(--red-grad);color:var(--white);margin-left:8px;transition:all 0.2s}
+.nav-donate:hover{transform:translateY(-1px);box-shadow:0 8px 20px -8px rgba(236,50,55,0.5)}
+.nav-burger{display:flex;flex-direction:column;gap:5px;width:30px;padding:4px 0;cursor:pointer}
+.nav-burger span{display:block;width:100%;height:2px;background:var(--navy);border-radius:1px;transition:transform 0.3s,opacity 0.3s}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;inset:0;z-index:99;background:var(--navy);flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:0;transition:opacity 0.35s ease}
+.mobile-menu.open{display:flex;opacity:1}
+.mobile-menu a{font-family:var(--serif);font-size:36px;font-weight:700;color:rgba(255,255,255,0.85);transition:color 0.2s}
+.mobile-menu a:hover{color:var(--white)}
+.mob-donate{font-family:var(--sans)!important;font-size:13px!important;font-weight:700!important;letter-spacing:0.1em!important;text-transform:uppercase!important;padding:16px 40px!important;background:var(--red-grad)!important;color:var(--white)!important;margin-top:8px!important}
+
+/* Hero */
+.post-hero{margin-top:68px;position:relative;width:100%;aspect-ratio:21/8;overflow:hidden;background:var(--ivory) center/cover no-repeat;min-height:200px}
+.post-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,50,96,0.18) 0%,rgba(14,50,96,0.10) 40%,rgba(14,50,96,0.82) 100%)}
+.post-hero-noimg{height:180px;background:var(--navy);margin-top:68px}
+.post-back{position:absolute;top:20px;left:20px;z-index:2;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.8);transition:color 0.2s}
+.post-back:hover{color:var(--white)}
+
+/* Header */
+.post-header{background:var(--white);padding:36px 0 0}
+.post-meta-bar{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.post-cat{font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;background:var(--navy);color:var(--white);padding:4px 10px}
+.post-date{font-size:12px;color:var(--mid-grey)}
+.post-readtime{font-size:12px;color:var(--mid-grey)}
+.post-title{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,52px);line-height:1.06;letter-spacing:-0.01em;color:var(--charcoal);margin-bottom:24px;max-width:860px}
+.post-divider{border:none;border-top:1px solid var(--light-grey)}
+
+/* Body */
+.post-body-wrap{background:var(--white);padding:40px 0 72px}
+.post-body{max-width:740px}
+.post-body p{font-size:17px;line-height:1.82;color:var(--mid-grey);margin-bottom:22px}
+.post-body h2{font-family:var(--serif);font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--charcoal);line-height:1.2;margin:38px 0 14px}
+.post-body h3{font-family:var(--serif);font-size:clamp(18px,2.5vw,26px);font-weight:700;color:var(--charcoal);line-height:1.2;margin:28px 0 10px}
+.post-body ul,.post-body ol{padding-left:24px;margin-bottom:22px}
+.post-body li{font-size:17px;line-height:1.75;color:var(--mid-grey);margin-bottom:8px}
+.post-body strong{color:var(--charcoal);font-weight:700}
+.post-body em{font-style:italic}
+.post-body blockquote{border-left:4px solid var(--navy);padding:18px 24px;margin:28px 0;background:var(--ivory)}
+.post-body blockquote p{color:var(--charcoal);font-size:18px;font-style:italic;margin:0;font-family:var(--serif)}
+.post-body img{max-width:100%;margin:28px 0}
+.post-body a{color:var(--navy);text-decoration:underline;text-underline-offset:3px}
+.post-error{padding:80px 0;text-align:center;color:var(--mid-grey)}
+.post-error h2{font-family:var(--serif);font-size:32px;color:var(--charcoal);margin-bottom:12px}
+
+/* Related */
+.related{padding:56px 0;background:var(--ivory);border-top:1px solid var(--light-grey)}
+.related h3{font-family:var(--serif);font-weight:700;font-size:clamp(22px,3.5vw,34px);color:var(--charcoal);margin-top:10px;margin-bottom:28px}
+.related-eyebrow{display:block;font-size:10px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--red)}
+.related-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.rel-card{background:var(--white);border:1px solid var(--light-grey);display:block;overflow:hidden;transition:border-color 0.3s,transform 0.3s var(--ease-out)}
+.rel-card:hover{border-color:var(--navy);transform:translateY(-3px)}
+.rel-img{aspect-ratio:16/9;overflow:hidden}
+.rel-img-inner{width:100%;height:100%;background:var(--ivory) center/cover no-repeat;transition:transform 0.7s var(--ease-out)}
+.rel-card:hover .rel-img-inner{transform:scale(1.05)}
+.rel-body{padding:14px 18px 18px}
+.rel-cat{font-size:8px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:var(--navy);margin-bottom:6px}
+.rel-title{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--charcoal);line-height:1.25}
+
+/* CTA */
+.cta-section{padding:72px 0;background:var(--navy);text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(120deg,rgba(255,255,255,0.03) 0 1.5px,transparent 1.5px 32px);pointer-events:none}
+.cta-inner{max-width:520px;margin:0 auto;position:relative;z-index:1}
+.cta-inner h2{font-family:var(--serif);font-weight:700;font-size:clamp(24px,5vw,44px);line-height:1.06;color:var(--white);margin:8px 0 14px}
+.cta-inner p{font-size:14px;line-height:1.72;color:rgba(255,255,255,0.65);margin-bottom:24px}
+.btn-red-solid{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;padding:14px 28px;background:var(--red-grad);color:var(--white);border:none;cursor:pointer;transition:all 0.25s}
+.btn-red-solid:hover{transform:translateY(-2px);box-shadow:0 16px 36px -16px rgba(236,50,55,0.6)}
+
+/* Footer */
+.footer{background:#1C1C1E;padding:32px 0 20px}
+.footer-bottom{display:flex;flex-direction:column;gap:6px;font-size:11px;color:rgba(255,255,255,0.28);letter-spacing:0.06em;text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);margin-top:20px}
+.footer-simple{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.footer-simple a{font-size:13px;color:rgba(255,255,255,0.45);transition:color 0.2s}
+.footer-simple a:hover{color:rgba(255,255,255,0.88)}
+
+/* Responsive */
+@media(min-width:640px){.container{padding:0 28px}.related-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:780px){.nav{padding:0 32px}.nav-links{display:flex}.nav-donate{display:inline-flex}.nav-burger{display:none}.post-back{left:40px}}
+@media(min-width:900px){.container{padding:0 40px}.related-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="ngo-index.html" class="nav-brand">
+    <img src="IBADE LOGO.png" class="nav-logo" alt="Ibhade Charity Foundation">
+  </a>
+  <div class="nav-links">
+    <a href="ngo-index.html#about">About Us</a>
+    <a href="ngo-index.html#impact">Our Impact</a>
+    <a href="ngo-index.html#programmes">Projects</a>
+    <a href="ngo-blog.html" class="active">Publications</a>
+    <a href="ngo-index.html#donate" class="nav-donate">Donate Now</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="ngo-index.html#about">About Us</a>
+  <a href="ngo-index.html#impact">Our Impact</a>
+  <a href="ngo-index.html#programmes">Projects</a>
+  <a href="ngo-blog.html">Publications</a>
+  <a href="ngo-index.html#donate" class="mob-donate">Donate Now</a>
+</div>
+
+<div id="post-hero-wrap"></div>
+<div id="post-content-wrap"></div>
+
+<section class="related" id="related-section" style="display:none">
+  <div class="container">
+    <span class="related-eyebrow">More from Ibhade</span>
+    <h3>Recent Publications</h3>
+    <div class="related-grid" id="related-grid"></div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <span style="display:block;font-size:11px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px;">Give Today</span>
+      <h2>Inspired? Turn reading into action.</h2>
+      <p>Every kobo you give goes directly to the field. Allocate your donation to a specific programme — and we'll tell you exactly what happened.</p>
+      <a class="btn-red-solid" href="ngo-index.html#donate">
+        Donate Now
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-simple">
+      <a href="ngo-index.html">Home</a>
+      <a href="ngo-index.html#about">About Us</a>
+      <a href="ngo-index.html#impact">Our Impact</a>
+      <a href="ngo-blog.html">Publications</a>
+      <a href="ngo-index.html#donate">Donate</a>
+      <a href="mailto:info@ibhadecharity.org">Contact</a>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Ibhade Charity Foundation.</div>
+      <div>Results you can see. People you can trust.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var SB_URL = 'https://fzxnlrgyjfidtjwxrpif.supabase.co';
+var SB_KEY = 'sb_publishable_BWOOeLcEjxczWBCCGxMnYw_vIgWADqp';
+var slug = new URLSearchParams(location.search).get('id');
+if (!slug) { showError('No post specified.'); }
+else {
+  var sb = supabase.createClient(SB_URL, SB_KEY);
+  loadPost();
+}
+async function loadPost() {
+  try {
+    var res = await sb.from('posts').select('*').eq('slug', slug).eq('published', true).single();
+    if (res.error || !res.data) { showError('Post not found.'); return; }
+    renderPost(res.data);
+    loadRelated(res.data.id);
+  } catch(e) { showError('Could not load post.'); }
+}
+function renderPost(p) {
+  document.title = p.title + ' — Ibhade Charity Foundation';
+  var date = new Date(p.published_at || p.created_at).toLocaleDateString('en-NG', { day:'numeric', month:'long', year:'numeric' });
+  var words = (p.body || '').replace(/<[^>]*>/g,' ').split(/\s+/).filter(Boolean).length;
+  var rt = Math.max(1, Math.ceil(words / 250));
+  document.getElementById('post-hero-wrap').innerHTML = p.image_url
+    ? '<div class="post-hero" style="background-image:url(\'' + esc(p.image_url) + '\')"><a class="post-back" href="ngo-blog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> All Publications</a></div>'
+    : '<div class="post-hero-noimg"><a class="post-back" style="position:absolute;top:20px;left:20px;" href="ngo-blog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> All Publications</a></div>';
+  document.getElementById('post-content-wrap').innerHTML =
+    '<section class="post-header"><div class="container">' +
+      '<div class="post-meta-bar"><span class="post-cat">' + esc(p.category || 'Update') + '</span><span class="post-date">' + date + '</span><span class="post-readtime">' + rt + ' min read</span></div>' +
+      '<h1 class="post-title">' + esc(p.title) + '</h1>' +
+      '<hr class="post-divider">' +
+    '</div></section>' +
+    '<section class="post-body-wrap"><div class="container"><div class="post-body">' + (p.body || '') + '</div></div></section>';
+}
+async function loadRelated(id) {
+  try {
+    var res = await sb.from('posts').select('title,slug,image_url,category').eq('published',true).neq('id',id).order('published_at',{ascending:false}).limit(3);
+    var posts = res.data || [];
+    if (!posts.length) return;
+    document.getElementById('related-section').style.display = 'block';
+    document.getElementById('related-grid').innerHTML = posts.map(function(p){
+      var img = p.image_url ? ' style="background-image:url(\'' + esc(p.image_url) + '\')"' : '';
+      return '<a class="rel-card" href="ngo-post.html?id=' + esc(p.slug) + '"><div class="rel-img"><div class="rel-img-inner"' + img + '></div></div><div class="rel-body"><div class="rel-cat">' + esc(p.category||'Update') + '</div><div class="rel-title">' + esc(p.title) + '</div></div></a>';
+    }).join('');
+  } catch(e) {}
+}
+function showError(msg) {
+  document.getElementById('post-hero-wrap').innerHTML = '<div class="post-hero-noimg"></div>';
+  document.getElementById('post-content-wrap').innerHTML = '<section class="post-body-wrap"><div class="container"><div class="post-error"><h2>' + msg + '</h2><a href="ngo-blog.html" style="color:var(--navy);font-weight:700;">Back to all publications</a></div></div></section>';
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+window.addEventListener('scroll', function(){ document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+document.getElementById('nav-burger').addEventListener('click', function(){
+  this.classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+</script>
+</body>
+</html>
