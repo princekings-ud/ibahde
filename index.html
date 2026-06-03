@@ -813,17 +813,23 @@ ul { list-style: none; }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â• PARTNER STRIP â•â•â•â•â•â•â•â•â•â•â•â• */
 .partners { padding: 52px 0; background: var(--ivory); border-top: 1px solid var(--light-grey); }
-.partners-label { text-align: center; margin-bottom: 28px; font-size: 11px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--mid-grey); }
+.partners-label { text-align: center; margin-bottom: 36px; font-size: 11px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--mid-grey); }
 .partners-row {
-  display: flex; flex-wrap: wrap; gap: 24px;
+  display: flex; flex-wrap: wrap; gap: 40px;
   align-items: center; justify-content: center;
 }
 .partner-item {
-  font-family: var(--serif); font-size: 18px; font-weight: 600;
-  color: rgba(0,0,0,0.25); letter-spacing: 0.04em;
-  transition: color 0.25s; cursor: default;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.45; filter: grayscale(100%);
+  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
 }
-.partner-item:hover { color: var(--navy); }
+.partner-item:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.06); }
+.partner-item img { height: 40px; width: auto; max-width: 130px; object-fit: contain; display: block; }
+.partner-item .partner-fallback {
+  font-family: var(--sans); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.04em; color: var(--charcoal);
+}
 
 /* â•â•â•â•â•â•â•â•â•â•â•â• FOOTER â•â•â•â•â•â•â•â•â•â•â•â• */
 .footer { background: var(--charcoal); padding: 64px 0 28px; }
@@ -1009,8 +1015,8 @@ ul { list-style: none; }
   .donate-cta-btns .btn { width: 100%; justify-content: center; text-align: center; }
 
   /* â”€ Partners â”€ */
-  .partners-row { gap: 16px; }
-  .partner-item { font-size: 16px; }
+  .partners-row { gap: 24px; }
+  .partner-item img { height: 30px; max-width: 100px; }
 
   /* â”€ Footer â”€ */
   .footer { padding: 48px 0 24px; }
@@ -1617,7 +1623,7 @@ ul { list-style: none; }
     <div class="donate-cta-inner reveal">
       <div class="donate-left">
         <span class="eyebrow on-dark" style="margin-bottom:16px; display:inline-flex;">Give Today</span>
-        <h2>Your â‚¦5,000 plants<br>a water point. Your $100<br><em>keeps a classroom open.</em></h2>
+        <h2>Your ₦5,000 plants a water point.<br><em>Your $100 keeps a classroom open.</em></h2>
         <p style="margin-top:8px;">Every donation is allocated to a specific programme. You will receive a receipt showing exactly where your money went — within 48 hours.</p>
         <div class="donate-tiers">
           <div class="donate-tier">
@@ -1627,7 +1633,7 @@ ul { list-style: none; }
             </div>
             <div class="tier-body">
               <div>
-                <div class="amount">â‚¦5,000</div>
+                <div class="amount">₦5,000</div>
                 <div class="impact">Provides a child with a full term's learning materials</div>
               </div>
               <div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
@@ -1640,7 +1646,7 @@ ul { list-style: none; }
             </div>
             <div class="tier-body">
               <div>
-                <div class="amount">â‚¦25,000</div>
+                <div class="amount">₦25,000</div>
                 <div class="impact">Contributes to one water point installation</div>
               </div>
               <div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
@@ -1653,7 +1659,7 @@ ul { list-style: none; }
             </div>
             <div class="tier-body">
               <div>
-                <div class="amount">â‚¦100,000</div>
+                <div class="amount">₦100,000</div>
                 <div class="impact">Funds a full medical outreach for 200 patients</div>
               </div>
               <div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
@@ -1677,12 +1683,30 @@ ul { list-style: none; }
   <div class="container">
     <div class="partners-label reveal">Trusted partners &amp; supporters</div>
     <div class="partners-row reveal delay-1">
-      <div class="partner-item">UNICEF Nigeria</div>
-      <div class="partner-item">USAID</div>
-      <div class="partner-item">Edo State Government</div>
-      <div class="partner-item">WHO Nigeria</div>
-      <div class="partner-item">GTBank Foundation</div>
-      <div class="partner-item">Dangote Foundation</div>
+      <a class="partner-item" href="https://www.unicef.org/nigeria" target="_blank" rel="noopener" aria-label="UNICEF Nigeria">
+        <img src="https://logo.clearbit.com/unicef.org" alt="UNICEF Nigeria" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="partner-fallback" style="display:none">UNICEF Nigeria</span>
+      </a>
+      <a class="partner-item" href="https://www.usaid.gov" target="_blank" rel="noopener" aria-label="USAID">
+        <img src="https://logo.clearbit.com/usaid.gov" alt="USAID" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="partner-fallback" style="display:none">USAID</span>
+      </a>
+      <a class="partner-item" href="https://www.edostate.gov.ng" target="_blank" rel="noopener" aria-label="Edo State Government">
+        <img src="https://logo.clearbit.com/edostate.gov.ng" alt="Edo State Government" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="partner-fallback" style="display:none">Edo State Govt</span>
+      </a>
+      <a class="partner-item" href="https://www.afro.who.int/countries/nigeria" target="_blank" rel="noopener" aria-label="WHO Nigeria">
+        <img src="https://logo.clearbit.com/who.int" alt="WHO Nigeria" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="partner-fallback" style="display:none">WHO Nigeria</span>
+      </a>
+      <a class="partner-item" href="https://www.gtco.com" target="_blank" rel="noopener" aria-label="GTBank Foundation">
+        <img src="https://logo.clearbit.com/gtco.com" alt="GTBank Foundation" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="partner-fallback" style="display:none">GTBank Foundation</span>
+      </a>
+      <a class="partner-item" href="https://www.dangote.com/foundation" target="_blank" rel="noopener" aria-label="Dangote Foundation">
+        <img src="https://logo.clearbit.com/dangote.com" alt="Dangote Foundation" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="partner-fallback" style="display:none">Dangote Foundation</span>
+      </a>
     </div>
   </div>
 </section>
